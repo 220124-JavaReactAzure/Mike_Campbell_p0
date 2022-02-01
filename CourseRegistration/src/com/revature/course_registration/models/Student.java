@@ -2,6 +2,7 @@ package com.revature.course_registration.models;
 
 import java.io.Serializable;
 
+import com.revature.course_registration.util.LinkedList;
 
 public class Student implements Serializable {
 	// Attributes/Variables
@@ -11,7 +12,8 @@ public class Student implements Serializable {
 	private String email;
 	private String username;
 	private String password;
-	
+	private LinkedList<Course> courseSchedule;
+
 	// Constructor
 	public Student() {
 		super();
@@ -78,8 +80,17 @@ public class Student implements Serializable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
-	
-	
+	public LinkedList<Course> getCourseSchedule() {
+		return courseSchedule;
+	}
+
+	public void addCourse(LinkedList<Course> courseSchedule) {
+		// TODO
+	}
+
+	public void removeCourse(LinkedList<Course> courseSchedule) {
+		// TODO
+	}
+
 }
