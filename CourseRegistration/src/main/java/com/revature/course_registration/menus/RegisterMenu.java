@@ -1,19 +1,19 @@
 package main.java.com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
+import com.revature.course_registration.exceptions.InvalidRequestException;
+import com.revature.course_registration.models.Student;
+import com.revature.course_registration.services.StudentService;
+import com.revature.course_registration.util.MenuRouter;
 
-import com.revature.monster_lab.exceptions.InvalidRequestException;
-import com.revature.monster_lab.models.Scientist;
-import com.revature.monster_lab.services.ScientistService;
-import com.revature.monster_lab.util.MenuRouter;
 
 public class RegisterMenu extends Menu {
 
-	ScientistService scientistService;
+	StudentService studentService;
 
-	public RegisterMenu(BufferedReader consoleReader, MenuRouter router, ScientistService scientistService) {
+	public RegisterMenu(BufferedReader consoleReader, MenuRouter router, StudentService studentService) {
 		super("Register", "/register", consoleReader, router);
-		this.scientistService = scientistService;
+		this.studentService = studentService;
 	}
 
 	@Override
@@ -41,12 +41,12 @@ public class RegisterMenu extends Menu {
 
 //				System.out.printf("Provided by user: firstName: %s, lastName: %s, email: %s, username: %s, password: %s", firstName, lastName, email, username, password).println();
 
-				Scientist scientist = new Scientist(firstName, lastName, email, username, password);
+				Student student = new Student(firstName, lastName, email, username, password);
 
-				System.out.printf("Provided by user: %s\n", scientist.toString()).println();
+				System.out.printf("Provided by user: %s\n", student.toString()).println();
 
 				try {
-					scientistService.registerNewScientist(scientist);
+					studentService.registerNewStudent(student);
 				} catch (InvalidRequestException e) {
 					// TODO Auto-generated catch block
 					// e.printStackTrace(); 
