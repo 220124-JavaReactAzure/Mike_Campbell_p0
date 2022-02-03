@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
+
 import com.revature.course_registration.models.Student;
 import com.revature.course_registration.util.List;
 import main.java.com.revature.course_registration.util.ArrayList;
@@ -75,7 +76,7 @@ public class StudentDAO implements CrudDAO<Student> {
 
 	@Override
 	public List<Student> findAll() {
-		List<Student> studentsList = new ArrayList<Student>();
+		List<Student> studentsList = new ArrayList<>();
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			String sql = "select * from scientists";
