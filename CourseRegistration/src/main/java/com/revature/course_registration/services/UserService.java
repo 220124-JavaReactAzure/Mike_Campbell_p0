@@ -33,7 +33,7 @@ public class UserService {
 	}
 
 	// TODO: Implement authentication
-	public User authenticateStudent(String username, String password) {
+	public User authenticateUser(String username, String password) {
 		
 		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
 			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
