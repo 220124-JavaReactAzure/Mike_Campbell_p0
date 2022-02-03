@@ -1,7 +1,5 @@
 package main.java.com.revature.course_registration.daos;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +14,29 @@ import main.java.com.revature.course_registration.util.ConnectionFactory;
 
 public class UserDAO implements CrudDAO<User> {
 
-	// TODO: Implement Authentication
+	// Authenticate by username and password
 	public User findByUsernameAndPassword(String username, String password) {
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			String sql = "select * from users where username = ? and password = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				User foundUser = new User();
+				foundUser.setUserId(rs.getString("user_id"));
+				foundUser.setFirstName(rs.getString("user_fname"));
+				foundUser.setLastName(rs.getString("user_lname"));
+				foundUser.setEmail(rs.getString("user_email"));
+				foundUser.setUsername(rs.getString("user_username"));
+				foundUser.setPassword(rs.getString("user_password"));
+				foundUser.setUserPermission((rs.getInt("user_permission")));
+
+				return foundUser;
+			}
 
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -29,12 +46,10 @@ public class UserDAO implements CrudDAO<User> {
 		return null;
 	}
 
-	// TODO: Implement FindByEmail
 	public User findByEmail(String email) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-			// check user table first, instructor has higher permissions, so if they used to
-			// be a student, they shouldn't be locked out of those permissions
-			String sql = "select * from instructor where email = ".concat(email);
+
+			String sql = "select * from users where user_email = ".concat(email);
 			Statement s = conn.createStatement();
 
 			ResultSet resultSet = s.executeQuery(sql);
@@ -43,35 +58,16 @@ public class UserDAO implements CrudDAO<User> {
 				User foundUser = new User();
 
 				foundUser.setUserId(resultSet.getString("user_id"));
-				foundUser.setFirstName(resultSet.getString("first_name"));
-				foundUser.setLastName(resultSet.getString("last_name"));
-				foundUser.setEmail(resultSet.getString("email"));
-				foundUser.setUsername(resultSet.getString("username"));
-				foundUser.setPassword(resultSet.getString("password"));
-				foundUser.setUserPermission((resultSet.getInt("permission")));
+				foundUser.setFirstName(resultSet.getString("user_fname"));
+				foundUser.setLastName(resultSet.getString("user_lname"));
+				foundUser.setEmail(resultSet.getString("user_email"));
+				foundUser.setUsername(resultSet.getString("user_username"));
+				foundUser.setPassword(resultSet.getString("user_password"));
+				foundUser.setUserPermission((resultSet.getInt("user_permission")));
 				return foundUser;
-			} 
-			//if no instructor match, check student table
-			else {
-				sql = "select * from student where email = ".concat(email);
-				s = conn.createStatement();
+			} else {
+				return null;
 
-				resultSet = s.executeQuery(sql);
-
-				if (resultSet != null) {
-					User foundUser = new User();
-
-					foundUser.setUserId(resultSet.getString("user_id"));
-					foundUser.setFirstName(resultSet.getString("first_name"));
-					foundUser.setLastName(resultSet.getString("last_name"));
-					foundUser.setEmail(resultSet.getString("email"));
-					foundUser.setUsername(resultSet.getString("username"));
-					foundUser.setPassword(resultSet.getString("password"));
-					foundUser.setUserPermission((resultSet.getInt("permission")));
-					return foundUser;
-				} else {
-					return null;
-				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,32 +77,58 @@ public class UserDAO implements CrudDAO<User> {
 
 	// TODO: Implement FindByUsername
 	public User findByUsername(String username) {
-		return null;
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			String sql = "select * from users where user_username = ".concat(username);
+			Statement s = conn.createStatement();
+
+			ResultSet resultSet = s.executeQuery(sql);
+
+			if (resultSet != null) {
+				User foundUser = new User();
+
+				foundUser.setUserId(resultSet.getString("user_id"));
+				foundUser.setFirstName(resultSet.getString("user_fname"));
+				foundUser.setLastName(resultSet.getString("user_lname"));
+				foundUser.setEmail(resultSet.getString("user_email"));
+				foundUser.setUsername(resultSet.getString("user_username"));
+				foundUser.setPassword(resultSet.getString("user_password"));
+				foundUser.setUserPermission((resultSet.getInt("user_permission")));
+				return foundUser;
+			} else {
+				return null;
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
-	public User create(User newStudent) {
+	public User create(User newUser) {
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
 			// random unique ID generation & assignment
 			// newStudent.setScientistId(UUID.randomUUID().toString());
 
-			String sql = "insert into scientists (scientist_id, first_name, last_name, email, username, password) values (?, ?, ?, ?, ?, ?)";
+			String sql = "insert into users (user_fname, user_lname, user_email, user_username, user_password, user_permission) values (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setString(1, newStudent.getStudentId());
-			ps.setString(2, newStudent.getFirstName());
-			ps.setString(3, newStudent.getLastName());
-			ps.setString(4, newStudent.getEmail());
-			ps.setString(5, newStudent.getUsername());
-			ps.setString(6, newStudent.getPassword());
+			// ps.setString(1, newUser.getUserId());
+			ps.setString(1, newUser.getFirstName());
+			ps.setString(2, newUser.getLastName());
+			ps.setString(3, newUser.getEmail());
+			ps.setString(4, newUser.getUsername());
+			ps.setString(5, newUser.getPassword());
+			ps.setInt(6, newUser.getUserPermission());
 
 			int rowsInserted = ps.executeUpdate();
 
 			if (rowsInserted != 0) {
-				return newStudent;
+				return newUser;
 			}
 
 		} catch (SQLException e) {
@@ -119,27 +141,28 @@ public class UserDAO implements CrudDAO<User> {
 
 	@Override
 	public List<User> findAll() {
-		List<User> studentsList = new ArrayList<>();
+		List<User> userList = new ArrayList<>();
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-			String sql = "select * from scientists";
+			String sql = "select * from users";
 			Statement s = conn.createStatement();
 
 			ResultSet resultSet = s.executeQuery(sql);
 
 			while (resultSet.next()) {
-				User student = new User();
-				student.setStudentId(resultSet.getString("student_id"));
-				student.setFirstName(resultSet.getString("first_name"));
-				student.setLastName(resultSet.getString("last_name"));
-				student.setEmail(resultSet.getString("email"));
-				student.setUsername(resultSet.getString("username"));
-				student.setPassword(resultSet.getString("password"));
+				User user = new User();
+				user.setUserId(resultSet.getString("user_id"));
+				user.setFirstName(resultSet.getString("user_fname"));
+				user.setLastName(resultSet.getString("user_lname"));
+				user.setEmail(resultSet.getString("user_email"));
+				user.setUsername(resultSet.getString("user_username"));
+				user.setPassword(resultSet.getString("user_password"));
+				user.setUserPermission(resultSet.getInt("user_permission"));
 
-				studentsList.add(student);
+				userList.add(user);
 			}
 
-			return studentsList;
+			return userList;
 
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -151,12 +174,36 @@ public class UserDAO implements CrudDAO<User> {
 
 	@Override
 	public User findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			String sql = "select * from users where user_id = ".concat(id);
+			Statement s = conn.createStatement();
+
+			ResultSet resultSet = s.executeQuery(sql);
+
+			if (resultSet != null) {
+				User foundUser = new User();
+
+				foundUser.setUserId(resultSet.getString("user_id"));
+				foundUser.setFirstName(resultSet.getString("user_fname"));
+				foundUser.setLastName(resultSet.getString("user_lname"));
+				foundUser.setEmail(resultSet.getString("user_email"));
+				foundUser.setUsername(resultSet.getString("user_username"));
+				foundUser.setPassword(resultSet.getString("user_password"));
+				foundUser.setUserPermission((resultSet.getInt("user_permission")));
+				return foundUser;
+			} else {
+				return null;
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
-	public boolean update(User updatedStudent) {
+	public boolean update(User updatedUser) {
 		// TODO Auto-generated method stub
 		return false;
 	}
