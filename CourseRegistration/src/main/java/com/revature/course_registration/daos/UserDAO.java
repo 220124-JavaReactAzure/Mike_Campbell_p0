@@ -9,17 +9,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
-import com.revature.course_registration.models.Student;
-import com.revature.course_registration.util.List;
+import main.java.com.revature.course_registration.models.User;
+import main.java.com.revature.course_registration.util.List;
 import main.java.com.revature.course_registration.util.ArrayList;
 import main.java.com.revature.course_registration.util.ConnectionFactory;
 
-
-
-public class StudentDAO implements CrudDAO<Student> {
+public class UserDAO implements CrudDAO<User> {
 
 	// TODO: Implement Authentication
-	public Student findByUsernameAndPassword(String username, String password) {
+	public User findByUsernameAndPassword(String username, String password) {
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -32,17 +30,62 @@ public class StudentDAO implements CrudDAO<Student> {
 	}
 
 	// TODO: Implement FindByEmail
-	public Student findByEmail(String email) {
-		return null;
+	public User findByEmail(String email) {
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+			// check user table first, instructor has higher permissions, so if they used to
+			// be a student, they shouldn't be locked out of those permissions
+			String sql = "select * from instructor where email = ".concat(email);
+			Statement s = conn.createStatement();
+
+			ResultSet resultSet = s.executeQuery(sql);
+
+			if (resultSet != null) {
+				User foundUser = new User();
+
+				foundUser.setUserId(resultSet.getString("user_id"));
+				foundUser.setFirstName(resultSet.getString("first_name"));
+				foundUser.setLastName(resultSet.getString("last_name"));
+				foundUser.setEmail(resultSet.getString("email"));
+				foundUser.setUsername(resultSet.getString("username"));
+				foundUser.setPassword(resultSet.getString("password"));
+				foundUser.setUserPermission((resultSet.getInt("permission")));
+				return foundUser;
+			} 
+			//if no instructor match, check student table
+			else {
+				sql = "select * from student where email = ".concat(email);
+				s = conn.createStatement();
+
+				resultSet = s.executeQuery(sql);
+
+				if (resultSet != null) {
+					User foundUser = new User();
+
+					foundUser.setUserId(resultSet.getString("user_id"));
+					foundUser.setFirstName(resultSet.getString("first_name"));
+					foundUser.setLastName(resultSet.getString("last_name"));
+					foundUser.setEmail(resultSet.getString("email"));
+					foundUser.setUsername(resultSet.getString("username"));
+					foundUser.setPassword(resultSet.getString("password"));
+					foundUser.setUserPermission((resultSet.getInt("permission")));
+					return foundUser;
+				} else {
+					return null;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	// TODO: Implement FindByUsername
-	public Student findByUsername(String username) {
+	public User findByUsername(String username) {
 		return null;
 	}
 
 	@Override
-	public Student create(Student newStudent) {
+	public User create(User newStudent) {
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -75,8 +118,8 @@ public class StudentDAO implements CrudDAO<Student> {
 	}
 
 	@Override
-	public List<Student> findAll() {
-		List<Student> studentsList = new ArrayList<>();
+	public List<User> findAll() {
+		List<User> studentsList = new ArrayList<>();
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			String sql = "select * from scientists";
@@ -85,7 +128,7 @@ public class StudentDAO implements CrudDAO<Student> {
 			ResultSet resultSet = s.executeQuery(sql);
 
 			while (resultSet.next()) {
-				Student student = new Student();
+				User student = new User();
 				student.setStudentId(resultSet.getString("student_id"));
 				student.setFirstName(resultSet.getString("first_name"));
 				student.setLastName(resultSet.getString("last_name"));
@@ -107,13 +150,13 @@ public class StudentDAO implements CrudDAO<Student> {
 	}
 
 	@Override
-	public Student findById(String id) {
+	public User findById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Student updatedStudent) {
+	public boolean update(User updatedStudent) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -3,7 +3,7 @@ package main.java.com.revature.course_registration.util;
 public class TempDriver {
 
 	public static void main(String[] args) {
-		List<String> myStringList = new LinkedList<>();
+		List<String> myStringList = new ArrayList<>();
 		
 		myStringList.add("Hello");
 		myStringList.add("There");

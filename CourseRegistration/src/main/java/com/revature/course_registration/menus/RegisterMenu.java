@@ -1,17 +1,17 @@
 package main.java.com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
-import com.revature.course_registration.exceptions.InvalidRequestException;
-import com.revature.course_registration.models.Student;
-import com.revature.course_registration.services.StudentService;
-import com.revature.course_registration.util.MenuRouter;
+import main.java.com.revature.course_registration.exceptions.InvalidRequestException;
+import main.java.com.revature.course_registration.models.User;
+import main.java.com.revature.course_registration.services.UserService;
+import main.java.com.revature.course_registration.util.MenuRouter;
 
 
 public class RegisterMenu extends Menu {
 
-	StudentService studentService;
+	UserService studentService;
 
-	public RegisterMenu(BufferedReader consoleReader, MenuRouter router, StudentService studentService) {
+	public RegisterMenu(BufferedReader consoleReader, MenuRouter router, UserService studentService) {
 		super("Register", "/register", consoleReader, router);
 		this.studentService = studentService;
 	}
@@ -41,7 +41,7 @@ public class RegisterMenu extends Menu {
 
 //				System.out.printf("Provided by user: firstName: %s, lastName: %s, email: %s, username: %s, password: %s", firstName, lastName, email, username, password).println();
 
-				Student student = new Student(firstName, lastName, email, username, password);
+				User student = new User(firstName, lastName, email, username, password);
 
 				System.out.printf("Provided by user: %s\n", student.toString()).println();
 

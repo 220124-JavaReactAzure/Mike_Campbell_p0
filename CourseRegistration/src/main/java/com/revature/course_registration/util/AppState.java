@@ -3,9 +3,10 @@ package main.java.com.revature.course_registration.util;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import com.revature.monster_lab.menus.RegisterMenu;
-import com.revature.monster_lab.menus.WelcomeMenu;
-import com.revature.monster_lab.services.ScientistService;
+import main.java.com.revature.course_registration.daos.UserDAO;
+import main.java.com.revature.course_registration.menus.RegisterMenu;
+import main.java.com.revature.course_registration.menus.WelcomeMenu;
+import main.java.com.revature.course_registration.services.UserService;
 
 public class AppState {
 
@@ -17,9 +18,10 @@ public class AppState {
 		router = new MenuRouter();
 		BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 		
-		StudentService scientistService = new StudentService();
+		UserDAO studentDAO = new UserDAO();
+		UserService studentService = new UserService(studentDAO);
 		router.addMenu(new WelcomeMenu(consoleReader, router));
-		router.addMenu(new RegisterMenu(consoleReader, router, scientistService));
+		router.addMenu(new RegisterMenu(consoleReader, router, studentService));
 	}
 	
 	public void startup() {

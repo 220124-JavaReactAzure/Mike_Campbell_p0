@@ -2,7 +2,7 @@ package main.java.com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
 
-import com.revature.monster_lab.util.MenuRouter;
+import main.java.com.revature.course_registration.util.MenuRouter;
 
 public class DashboardMenu extends Menu {
 
