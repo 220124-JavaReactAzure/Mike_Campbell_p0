@@ -6,7 +6,6 @@ import main.java.com.revature.course_registration.models.User;
 import main.java.com.revature.course_registration.services.UserService;
 import main.java.com.revature.course_registration.util.MenuRouter;
 
-
 public class RegisterMenu extends Menu {
 
 	UserService studentService;
@@ -19,41 +18,63 @@ public class RegisterMenu extends Menu {
 	@Override
 	public void render() throws Exception {
 		// TODO Auto-generated method stub
-				System.out.println("The User selected Register");
+		System.out.println("The User selected Register");
 
-				// Things to obtain from user: first name, last name, email,username, password
+		User user;
 
-				System.out.println("Please provided us with some basic information");
-				System.out.print("First Name: ");
-				String firstName = consoleReader.readLine();
+		// Things to obtain from user: first name, last name, email,username, password
 
-				System.out.print("Last Name: ");
-				String lastName = consoleReader.readLine();
+		System.out.println("Please provided us with some basic information");
+		System.out.print("First Name: ");
+		String firstName = consoleReader.readLine();
 
-				System.out.print("Email: ");
-				String email = consoleReader.readLine();
+		System.out.print("Last Name: ");
+		String lastName = consoleReader.readLine();
 
-				System.out.print("Username: ");
-				String username = consoleReader.readLine();
+		System.out.print("Email: ");
+		String email = consoleReader.readLine();
 
-				System.out.print("Password: ");
-				String password = consoleReader.readLine();
+		System.out.print("Username: ");
+		String username = consoleReader.readLine();
 
-//				System.out.printf("Provided by user: firstName: %s, lastName: %s, email: %s, username: %s, password: %s", firstName, lastName, email, username, password).println();
+		System.out.print("Password: ");
+		String password = consoleReader.readLine();
 
-				User student = new User(firstName, lastName, email, username, password);
+		System.out.print("Instructor? Y/N");
+		String instructorCheck = consoleReader.readLine();
 
-				System.out.printf("Provided by user: %s\n", student.toString()).println();
-
-				try {
-					studentService.registerNewStudent(student);
-				} catch (InvalidRequestException e) {
-					// TODO Auto-generated catch block
-					// e.printStackTrace(); 
-					System.out.println("YOU HAVE PROVIDED INVALID DATA PLEASE TRY AGAIN\n\n\n");
-
-					router.transfer("/welcome");
-				}
+		if (instructorCheck.equals("y") || instructorCheck.equals("Y") || instructorCheck.equals("yes") || instructorCheck.equals("Yes")) {
+			System.out.print("Please enter instructor code: ");
+			// check for valid instructor code
+			// for now just 1 for instructor
+			String instructorCode = consoleReader.readLine();
+			if (instructorCode.equals("1")) {
+				user = new User(firstName, lastName, email, username, password, 1);
+			} else {
+				System.out.println("Invalid Instructor Code, returning to Welcome Menu.");
+				router.transfer("/welcome");
+				return;
 			}
-		
+
+		} else if (instructorCheck.equals("n") || instructorCheck.equals("N") || instructorCheck.equals("no") || instructorCheck.equals("No")) {
+			user = new User(firstName, lastName, email, username, password, 0);
+		} else {
+			System.out.println("Invalid selection, returning to Welcome Menu.");
+			router.transfer("/welcome");
+			return;
+		}
+
+		System.out.printf("Provided by user: %s\n", user.toString()).println();
+
+		try {
+			studentService.registerNewUser(user);
+		} catch (InvalidRequestException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			System.out.println("YOU HAVE PROVIDED INVALID DATA PLEASE TRY AGAIN\n\n\n");
+
+			router.transfer("/welcome");
+		}
 	}
+
+}

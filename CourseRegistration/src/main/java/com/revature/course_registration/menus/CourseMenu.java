@@ -45,7 +45,7 @@ public class CourseMenu extends Menu {
 			//TODO: Implement add course
 			break;
 		case "3":
-			System.out.println("Enter Course Number (WILL BE REMOVED)");
+			System.out.println("Enter Course Number \n(COURSE WILL BE REMOVED)");
 			// TODO: Implement remove course
 			break;
 		case "4":

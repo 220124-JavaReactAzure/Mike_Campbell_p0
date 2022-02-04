@@ -10,13 +10,14 @@ import main.java.com.revature.course_registration.exceptions.ResourcePersistence
 public class UserService {
 
 	private final UserDAO userDao;
+	private User sessionUser;
 
 	public UserService(UserDAO userDao) {
 		this.userDao = userDao;
 
 	}
 
-	public User registerNewStudent(User newUser) {
+	public User registerNewUser(User newUser) {
 		if (!isStudentValid(newUser)) {
 			throw new InvalidRequestException("Invalid user data provider");
 		}
