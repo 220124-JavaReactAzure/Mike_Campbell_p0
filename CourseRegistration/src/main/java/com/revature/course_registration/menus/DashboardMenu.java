@@ -9,7 +9,7 @@ public class DashboardMenu extends Menu {
 
 	private final UserService userService;
 
-	public DashboardMenu(String name, String route, BufferedReader consoleReader, MenuRouter router,
+	public DashboardMenu(BufferedReader consoleReader, MenuRouter router,
 			UserService userService) {
 		super("Dashboard", "/dashboard", consoleReader, router);
 		this.userService = userService;

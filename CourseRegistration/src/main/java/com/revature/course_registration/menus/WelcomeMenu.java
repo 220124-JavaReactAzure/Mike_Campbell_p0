@@ -16,7 +16,7 @@ public class WelcomeMenu extends Menu{
 	public void render() throws Exception {
 		
 		System.out.print(
-				"Welcome to the Mosnter Laboratory!\n" + "1) Login\n" + "2) Register\n" + "3) Exits\n" + "> ");
+				"\nWelcome to Course Registration!\nPlease Select an option[1-3]\n" + "1) Login\n" + "2) Register\n" + "3) Exit\n" + "> ");
 		
 		String userSelection = consoleReader.readLine();
 
@@ -31,7 +31,7 @@ public class WelcomeMenu extends Menu{
 			shutdown();
 			break;
 		default:
-			System.out.println("What on earth are you trying to tell me to do?!?!");
+			System.out.println("Invalid entry. Please select an option[1-3]");
 			break;
 		}
 		

@@ -1,4 +1,4 @@
-package test.java.com.revature.course_registration;
+package com.revature.course_registration;
 
 import static org.junit.Assert.*;
 

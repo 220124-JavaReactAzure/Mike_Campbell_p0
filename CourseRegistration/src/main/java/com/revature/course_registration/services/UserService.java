@@ -4,6 +4,7 @@ import com.revature.course_registration.daos.UserDAO;
 import com.revature.course_registration.exceptions.InvalidRequestException;
 import com.revature.course_registration.exceptions.AuthenticationException;
 import com.revature.course_registration.models.User;
+import com.revature.course_registration.util.List;
 import com.revature.course_registration.exceptions.ResourcePersistenceException;
 
 public class UserService {
@@ -16,7 +17,7 @@ public class UserService {
 		this.sessionUser = null;
 
 	}
-	
+
 	public User getSessionUser() {
 		return sessionUser;
 	}
@@ -26,8 +27,7 @@ public class UserService {
 			throw new InvalidRequestException("Invalid user data provider");
 		}
 
-		// TODO: Write logic that verifies the new users information isn't duplicated
-		// in the system
+		// logic that verifies the new users information isn't duplicated in the system
 		boolean usernameAvailable = userDao.findByUsername(newUser.getUsername()) == null;
 		boolean emailAvailable = userDao.findByUsername(newUser.getEmail()) == null;
 
@@ -51,10 +51,10 @@ public class UserService {
 		return persistedUser;
 	}
 
-	public List<User> getAllUsers(){
-		return userDao.findAll();	
+	public List<User> getAllUsers() {
+		return userDao.findAll();
 	}
-	
+
 	// TODO: Implement authentication
 	public void authenticateUser(String username, String password) {
 

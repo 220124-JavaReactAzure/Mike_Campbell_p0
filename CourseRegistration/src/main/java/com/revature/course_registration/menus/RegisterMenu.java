@@ -40,7 +40,7 @@ public class RegisterMenu extends Menu {
 		System.out.print("Password: ");
 		String password = consoleReader.readLine();
 
-		System.out.print("Instructor? Y/N");
+		System.out.print("Instructor? Y/N: ");
 		String instructorCheck = consoleReader.readLine();
 
 		if (instructorCheck.equals("y") || instructorCheck.equals("Y") || instructorCheck.equals("yes") || instructorCheck.equals("Yes")) {
@@ -64,7 +64,7 @@ public class RegisterMenu extends Menu {
 			return;
 		}
 
-		System.out.printf("Provided by user: %s\n", user.toString()).println();
+		//System.out.printf("Provided by user: %s\n", user.toString()).println();
 
 		try {
 			studentService.registerNewUser(user);

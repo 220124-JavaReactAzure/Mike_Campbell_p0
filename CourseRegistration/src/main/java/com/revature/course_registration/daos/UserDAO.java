@@ -19,7 +19,7 @@ public class UserDAO implements CrudDAO<User> {
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-			String sql = "select * from users where username = ? and password = ?";
+			String sql = "select * from users where user_username = ? and user_password = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
 			pstmt.setString(2, password);
@@ -78,10 +78,11 @@ public class UserDAO implements CrudDAO<User> {
 	public User findByUsername(String username) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-			String sql = "select * from users where user_username = ".concat(username);
-			Statement s = conn.createStatement();
-
-			ResultSet resultSet = s.executeQuery(sql);
+			String sql = "select * from users where user_username = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, username);
+			ResultSet resultSet = ps.executeQuery();
+			
 
 			if (resultSet != null) {
 				User foundUser = new User();
