@@ -1,9 +1,9 @@
-package main.java.com.revature.course_registration.menus;
+package com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
 
-import main.java.com.revature.course_registration.util.MenuRouter;
-import static main.java.com.revature.course_registration.util.AppState.shutdown;
+import com.revature.course_registration.util.MenuRouter;
+import static com.revature.course_registration.util.AppState.shutdown;
 
 public class WelcomeMenu extends Menu{
 

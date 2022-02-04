@@ -1,8 +1,8 @@
-package main.java.com.revature.course_registration.models;
+package com.revature.course_registration.models;
 
 import java.io.Serializable;
 
-import main.java.com.revature.course_registration.util.ArrayList;
+import com.revature.course_registration.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class User implements Serializable {

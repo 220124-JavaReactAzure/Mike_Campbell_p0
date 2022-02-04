@@ -1,7 +1,7 @@
-package main.java.com.revature.course_registration.daos;
+package com.revature.course_registration.daos;
 
-import main.java.com.revature.course_registration.models.Registration;
-import main.java.com.revature.course_registration.util.List;
+import com.revature.course_registration.models.Registration;
+import com.revature.course_registration.util.List;
 
 public class RegistrationDAO implements CrudDAO<Registration> {
 

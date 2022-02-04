@@ -1,4 +1,4 @@
-package main.java.com.revature.course_registration.util;
+package com.revature.course_registration.util;
 
 // <T> is an example of a parameterized type
 // The value of this type will be determined at object instantiation (aka when we call a constructor for a concrete implementation)

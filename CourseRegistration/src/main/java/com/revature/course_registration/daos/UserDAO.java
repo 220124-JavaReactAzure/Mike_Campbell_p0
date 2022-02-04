@@ -1,4 +1,4 @@
-package main.java.com.revature.course_registration.daos;
+package com.revature.course_registration.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
-import main.java.com.revature.course_registration.models.User;
-import main.java.com.revature.course_registration.util.List;
-import main.java.com.revature.course_registration.util.ArrayList;
-import main.java.com.revature.course_registration.util.ConnectionFactory;
+import com.revature.course_registration.models.User;
+import com.revature.course_registration.util.List;
+import com.revature.course_registration.util.ArrayList;
+import com.revature.course_registration.util.ConnectionFactory;
 
 public class UserDAO implements CrudDAO<User> {
 
@@ -75,7 +75,6 @@ public class UserDAO implements CrudDAO<User> {
 		}
 	}
 
-	// TODO: Implement FindByUsername
 	public User findByUsername(String username) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 

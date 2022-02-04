@@ -1,4 +1,4 @@
-package main.java.com.revature.course_registration.util;
+package com.revature.course_registration.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

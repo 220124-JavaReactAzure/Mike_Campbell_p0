@@ -1,6 +1,6 @@
-package main.java.com.revature.course_registration;
+package com.revature.course_registration;
 
-import main.java.com.revature.course_registration.util.AppState;
+import com.revature.course_registration.util.AppState;
 
 public class RegistrationDriver {
 

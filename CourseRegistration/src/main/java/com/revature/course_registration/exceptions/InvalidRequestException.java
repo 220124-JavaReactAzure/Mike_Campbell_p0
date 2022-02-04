@@ -1,4 +1,4 @@
-package main.java.com.revature.course_registration.exceptions;
+package com.revature.course_registration.exceptions;
 
 @SuppressWarnings("serial")
 public class InvalidRequestException extends RuntimeException {

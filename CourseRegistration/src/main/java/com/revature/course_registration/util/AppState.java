@@ -1,15 +1,15 @@
-package main.java.com.revature.course_registration.util;
+package com.revature.course_registration.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import main.java.com.revature.course_registration.daos.UserDAO;
-import main.java.com.revature.course_registration.services.UserService;
+import com.revature.course_registration.daos.UserDAO;
+import com.revature.course_registration.services.UserService;
 
-import main.java.com.revature.course_registration.menus.RegisterMenu;
-import main.java.com.revature.course_registration.menus.WelcomeMenu;
-import main.java.com.revature.course_registration.menus.DashboardMenu;
-import main.java.com.revature.course_registration.menus.LoginMenu;
+import com.revature.course_registration.menus.RegisterMenu;
+import com.revature.course_registration.menus.WelcomeMenu;
+import com.revature.course_registration.menus.DashboardMenu;
+import com.revature.course_registration.menus.LoginMenu;
 
 public class AppState {
 

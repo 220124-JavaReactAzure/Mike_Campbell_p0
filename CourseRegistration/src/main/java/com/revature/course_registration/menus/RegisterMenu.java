@@ -1,10 +1,10 @@
-package main.java.com.revature.course_registration.menus;
+package com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
-import main.java.com.revature.course_registration.exceptions.InvalidRequestException;
-import main.java.com.revature.course_registration.models.User;
-import main.java.com.revature.course_registration.services.UserService;
-import main.java.com.revature.course_registration.util.MenuRouter;
+import com.revature.course_registration.exceptions.InvalidRequestException;
+import com.revature.course_registration.models.User;
+import com.revature.course_registration.services.UserService;
+import com.revature.course_registration.util.MenuRouter;
 
 public class RegisterMenu extends Menu {
 

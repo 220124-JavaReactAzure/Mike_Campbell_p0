@@ -1,11 +1,10 @@
-package main.java.com.revature.course_registration.services;
+package com.revature.course_registration.services;
 
-import main.java.com.revature.course_registration.daos.UserDAO;
-import main.java.com.revature.course_registration.exceptions.InvalidRequestException;
-import main.java.com.revature.course_registration.exceptions.AuthenticationException;
-import main.java.com.revature.course_registration.models.User;
-import main.java.com.revature.course_registration.exceptions.ResourcePersistenceException;
-
+import com.revature.course_registration.daos.UserDAO;
+import com.revature.course_registration.exceptions.InvalidRequestException;
+import com.revature.course_registration.exceptions.AuthenticationException;
+import com.revature.course_registration.models.User;
+import com.revature.course_registration.exceptions.ResourcePersistenceException;
 
 public class UserService {
 
@@ -14,16 +13,35 @@ public class UserService {
 
 	public UserService(UserDAO userDao) {
 		this.userDao = userDao;
+		this.sessionUser = null;
 
+	}
+	
+	public User getSessionUser() {
+		return sessionUser;
 	}
 
 	public User registerNewUser(User newUser) {
-		if (!isStudentValid(newUser)) {
+		if (!isUserValid(newUser)) {
 			throw new InvalidRequestException("Invalid user data provider");
 		}
 
 		// TODO: Write logic that verifies the new users information isn't duplicated
 		// in the system
+		boolean usernameAvailable = userDao.findByUsername(newUser.getUsername()) == null;
+		boolean emailAvailable = userDao.findByUsername(newUser.getEmail()) == null;
+
+		if (!usernameAvailable || !emailAvailable) {
+			if (!usernameAvailable && emailAvailable) {
+				throw new ResourcePersistenceException("The provided username was already taken in the database");
+			} else if (usernameAvailable) {
+				throw new ResourcePersistenceException("The provided email was already taken in the database");
+			} else {
+				throw new ResourcePersistenceException(
+						"The provided username and email were already taken in the database");
+			}
+		}
+
 		User persistedUser = userDao.create(newUser);
 
 		if (persistedUser == null) {
@@ -33,22 +51,28 @@ public class UserService {
 		return persistedUser;
 	}
 
+	public List<User> getAllUsers(){
+		return userDao.findAll();	
+	}
+	
 	// TODO: Implement authentication
-	public User authenticateUser(String username, String password) {
-		
-		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
-			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
+	public void authenticateUser(String username, String password) {
+
+		if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
+			throw new InvalidRequestException(
+					"Either username or password is an invalid entry. Please try logging in again");
 		}
-		
+
 		User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
-		
-		if(authenticatedUser == null) {
-			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
+
+		if (authenticatedUser == null) {
+			throw new AuthenticationException(
+					"Unauthenticated user, information provided was not found in our database.");
 		}
-		return authenticatedUser;
+		sessionUser = authenticatedUser;
 	}
 
-	public boolean isStudentValid(User newUser) {
+	public boolean isUserValid(User newUser) {
 		if (newUser == null)
 			return false;
 		if (newUser.getFirstName() == null || newUser.getFirstName().trim().equals(""))
@@ -63,4 +87,11 @@ public class UserService {
 
 	}
 
+	public void logout() {
+		sessionUser = null;
+	}
+
+	public boolean isSessionActive() {
+		return sessionUser != null;
+	}
 }

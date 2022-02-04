@@ -1,7 +1,7 @@
-package main.java.com.revature.course_registration.util;
+package com.revature.course_registration.util;
 
 
-import main.java.com.revature.course_registration.menus.Menu;
+import com.revature.course_registration.menus.Menu;
 
 public class MenuRouter {
 	private final ArrayList<Menu> menus;
