@@ -67,7 +67,7 @@ public class UserService {
 
 		if (authenticatedUser == null) {
 			throw new AuthenticationException(
-					"Unauthenticated user, information provided was not found in our database.");
+					"Authentication Failed: Information provided does not match a user in our database.");
 		}
 		sessionUser = authenticatedUser;
 	}

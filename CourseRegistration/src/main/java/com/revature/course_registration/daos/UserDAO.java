@@ -9,10 +9,13 @@ import java.util.UUID;
 
 import com.revature.course_registration.models.User;
 import com.revature.course_registration.util.List;
+import com.revature.course_registration.util.logging.Logger;
 import com.revature.course_registration.util.ArrayList;
 import com.revature.course_registration.util.ConnectionFactory;
 
 public class UserDAO implements CrudDAO<User> {
+
+	private final Logger logger = Logger.getLogger(true);
 
 	// Authenticate by username and password
 	public User findByUsernameAndPassword(String username, String password) {
@@ -39,8 +42,7 @@ public class UserDAO implements CrudDAO<User> {
 			}
 
 		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			logger.log(e.getSQLState());
 		}
 
 		return null;
@@ -49,12 +51,12 @@ public class UserDAO implements CrudDAO<User> {
 	public User findByEmail(String email) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-			String sql = "select * from users where user_email = ".concat(email);
-			Statement s = conn.createStatement();
+			String sql = "select * from users where user_email = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, email);
+			ResultSet resultSet = ps.executeQuery();
 
-			ResultSet resultSet = s.executeQuery(sql);
-
-			if (resultSet != null) {
+			while (resultSet.next()) {
 				User foundUser = new User();
 
 				foundUser.setUserId(resultSet.getString("user_id"));
@@ -65,14 +67,12 @@ public class UserDAO implements CrudDAO<User> {
 				foundUser.setPassword(resultSet.getString("user_password"));
 				foundUser.setUserPermission((resultSet.getInt("user_permission")));
 				return foundUser;
-			} else {
-				return null;
-
 			}
+
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
+			logger.log(e.getSQLState());
 		}
+		return null;
 	}
 
 	public User findByUsername(String username) {
@@ -82,9 +82,8 @@ public class UserDAO implements CrudDAO<User> {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet resultSet = ps.executeQuery();
-			
 
-			if (resultSet != null) {
+			while (resultSet.next()) {
 				User foundUser = new User();
 
 				foundUser.setUserId(resultSet.getString("user_id"));
@@ -95,14 +94,13 @@ public class UserDAO implements CrudDAO<User> {
 				foundUser.setPassword(resultSet.getString("user_password"));
 				foundUser.setUserPermission((resultSet.getInt("user_permission")));
 				return foundUser;
-			} else {
-				return null;
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
+			logger.log(e.getSQLState());
+
 		}
+		return null;
 	}
 
 	@Override
@@ -132,8 +130,7 @@ public class UserDAO implements CrudDAO<User> {
 			}
 
 		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			logger.log(e.getSQLState());
 		}
 
 		return null;
@@ -165,8 +162,7 @@ public class UserDAO implements CrudDAO<User> {
 			return userList;
 
 		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			logger.log(e.getSQLState());
 		}
 
 		return null;
@@ -176,12 +172,12 @@ public class UserDAO implements CrudDAO<User> {
 	public User findById(String id) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-			String sql = "select * from users where user_id = ".concat(id);
-			Statement s = conn.createStatement();
+			String sql = "select * from users where user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet resultSet = ps.executeQuery();
 
-			ResultSet resultSet = s.executeQuery(sql);
-
-			if (resultSet != null) {
+			while (resultSet.next()) {
 				User foundUser = new User();
 
 				foundUser.setUserId(resultSet.getString("user_id"));
@@ -192,14 +188,13 @@ public class UserDAO implements CrudDAO<User> {
 				foundUser.setPassword(resultSet.getString("user_password"));
 				foundUser.setUserPermission((resultSet.getInt("user_permission")));
 				return foundUser;
-			} else {
-				return null;
-
 			}
+
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
+			logger.log(e.getSQLState());
+
 		}
+		return null;
 	}
 
 	@Override
