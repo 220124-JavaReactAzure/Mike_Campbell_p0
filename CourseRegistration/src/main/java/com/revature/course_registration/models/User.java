@@ -108,4 +108,28 @@ public class User implements Serializable {
 		// TODO
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String output = "";
+		output = output.concat(this.getFirstName());
+		output = output.concat(" ");
+		output = output.concat(this.getLastName());
+		output = output.concat(", ");
+		output = output.concat(this.getEmail());
+		output = output.concat(", ");
+		
+		if(this.getUserPermission() == 0) {
+			output = output.concat("Student");
+		}
+		else if(this.getUserPermission() == 1) {
+			output = output.concat("Instructor");
+		}
+		else {
+			output = output.concat("User");
+		}
+		
+		return output;
+	}
+
 }
