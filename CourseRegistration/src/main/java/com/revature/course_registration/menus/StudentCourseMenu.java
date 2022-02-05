@@ -5,15 +5,15 @@ import java.io.BufferedReader;
 import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.MenuRouter;
 
-public class CourseMenu extends Menu {
+public class StudentCourseMenu extends Menu {
 
 	private final UserService userService;
 
-	public CourseMenu(String name, String route, BufferedReader consoleReader, MenuRouter router,
+	public StudentCourseMenu(BufferedReader consoleReader, MenuRouter router,
 			UserService userService) {
-		super(name, route, consoleReader, router);
+		super("Student Course Menu", "/student-course-menu", consoleReader, router);
 		this.userService = userService;
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
@@ -21,13 +21,10 @@ public class CourseMenu extends Menu {
 
 		// TODO: Work on implementing sessions & dashboard functionality
 		
-		// check for user permission to see if they can modify courses or enroll in
-		// courses (instructor vs student)
-		
 		String menu = "1) View My Courses\n" + 
-					"2) Add course\n" + 
-					"3) Remove Course\n" + 
-					"4) Modify Course\n" +
+					"2) View Available Courses\n" + 
+					"3) Add course\n" + 
+					"4) Remove Course\n" + 
 					"5) <<Back\n" +
 					"> ";
 

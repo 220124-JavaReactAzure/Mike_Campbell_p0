@@ -23,3 +23,6 @@ Unauthenticated user, information provided was not found in our database.
 05/02/2022 10:51:04Application initiliazing....
 05/02/2022 10:51:04Application initialized successfully.
 05/02/2022 10:51:22Authentication Failed: Information provided does not match a user in our database.
+02/05/2022 17:32:56 Application initiliazing....
+02/05/2022 17:32:57 Application initialized successfully.
+02/05/2022 17:33:10 Authentication Failed: Information provided does not match a user in our database.

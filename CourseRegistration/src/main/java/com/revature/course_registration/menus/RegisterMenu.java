@@ -43,7 +43,8 @@ public class RegisterMenu extends Menu {
 		System.out.print("Instructor? Y/N: ");
 		String instructorCheck = consoleReader.readLine();
 
-		if (instructorCheck.equals("y") || instructorCheck.equals("Y") || instructorCheck.equals("yes") || instructorCheck.equals("Yes")) {
+		if (instructorCheck.equals("y") || instructorCheck.equals("Y") || instructorCheck.equals("yes")
+				|| instructorCheck.equals("Yes")) {
 			System.out.print("Please enter instructor code: ");
 			// check for valid instructor code
 			// for now just 1 for instructor
@@ -51,20 +52,19 @@ public class RegisterMenu extends Menu {
 			if (instructorCode.equals("1")) {
 				user = new User(firstName, lastName, email, username, password, 1);
 			} else {
-				System.out.println("Invalid Instructor Code, returning to Welcome Menu.");
+				System.out.println("Invalid Instructor Code. Returning to Welcome Menu.");
 				router.transfer("/welcome");
 				return;
 			}
 
-		} else if (instructorCheck.equals("n") || instructorCheck.equals("N") || instructorCheck.equals("no") || instructorCheck.equals("No")) {
+		} else if (instructorCheck.equals("n") || instructorCheck.equals("N") || instructorCheck.equals("no")
+				|| instructorCheck.equals("No")) {
 			user = new User(firstName, lastName, email, username, password, 0);
 		} else {
 			System.out.println("Invalid selection, returning to Welcome Menu.");
 			router.transfer("/welcome");
 			return;
 		}
-
-		//System.out.printf("Provided by user: %s\n", user.toString()).println();
 
 		try {
 			studentService.registerNewUser(user);

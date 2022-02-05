@@ -9,8 +9,7 @@ public class DashboardMenu extends Menu {
 
 	private final UserService userService;
 
-	public DashboardMenu(BufferedReader consoleReader, MenuRouter router,
-			UserService userService) {
+	public DashboardMenu(BufferedReader consoleReader, MenuRouter router, UserService userService) {
 		super("Dashboard", "/dashboard", consoleReader, router);
 		this.userService = userService;
 	}
@@ -19,13 +18,11 @@ public class DashboardMenu extends Menu {
 	public void render() throws Exception {
 
 		// TODO: Work on implementing sessions & dashboard functionality
-		
-		// check for user permission to see if they can modify courses or enroll in
-		// courses (instructor vs student)
-		
+
 		String menu = "1) View/edit my profile information\n" + 
-					"2) View/edit/create course(s)\n" + 
-					"3) Logout\n" + 
+					"2) Manage Courses\n" +
+					"3) View Course Catalog\n" + 
+					"4) Logout\n" + 
 					"> ";
 
 		System.out.print(menu);
@@ -38,11 +35,20 @@ public class DashboardMenu extends Menu {
 			router.transfer("/user-profile-edit");
 			break;
 		case "2":
-			System.out.println("View/edit/create courses selected");
-			//TODO: route to course menu
+			if (userService.getSessionUser().getUserPermission() == 0) {
+				router.transfer("/student-course-menu");
+			} else if (userService.getSessionUser().getUserPermission() == 1) {
+				router.transfer("/faculty-course-menu");
+			} else {
+				router.transfer("/welcome");
+			}
+
 			break;
 		case "3":
-			// TODO: Implement logout of user account
+			// TODO: Implement view course catalog
+			break;
+		case "4":
+			// TODO: Implement logout
 			break;
 		default:
 			System.out.println("The user made an invalid selection");
