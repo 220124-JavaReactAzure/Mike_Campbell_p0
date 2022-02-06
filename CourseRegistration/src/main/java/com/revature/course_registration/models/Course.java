@@ -96,12 +96,12 @@ public class Course {
 		output = output.concat(" ");
 		output = output.concat(this.getCourseName());
 		output = output.concat(", ");
-		output = output.concat(this.getCourseDescription());
-		output = output.concat(", ");
 		output = output.concat(String.valueOf(this.getCourseSeatsTaken()));
 		output = output.concat(", ");
 		output = output.concat(String.valueOf(this.getCourseSeatsMAX()));
-		
+		output = output.concat(", ");
+		output = output.concat(this.getCourseDescription());
+	
 		return output;
 	}
 }

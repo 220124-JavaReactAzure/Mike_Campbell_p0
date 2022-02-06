@@ -2,18 +2,23 @@ package com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
 
+import com.revature.course_registration.services.CourseService;
 import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.MenuRouter;
+import com.revature.course_registration.util.logging.Logger;
 
 public class FacultyCourseMenu extends Menu {
 
 	private final UserService userService;
+	private final CourseService courseService;
+	private final Logger logger;
 
 	public FacultyCourseMenu(BufferedReader consoleReader, MenuRouter router,
-			UserService userService) {
+			UserService userService, CourseService courseService) {
 		super("Faculty Course Menu", "/faculty-course-menu", consoleReader, router);
 		this.userService = userService;
-		// TODO Auto-generated constructor stub
+		this.courseService = courseService;
+		this.logger = Logger.getLogger(true);
 	}
 
 	@Override
