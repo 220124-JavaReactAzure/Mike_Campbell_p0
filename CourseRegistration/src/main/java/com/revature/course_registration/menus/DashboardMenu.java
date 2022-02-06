@@ -23,8 +23,8 @@ public class DashboardMenu extends Menu {
 	@Override
 	public void render() throws Exception {
 
-		String menu = "1) View/edit my profile information\n" + 
-					"2) Manage Courses\n" +
+		String menu = "1) View/Edit my profile information\n" + 
+					"2) View/Manage my courses\n" +
 					"3) View Course Catalog\n" + 
 					"4) Logout\n" + 
 					"> ";
@@ -36,7 +36,7 @@ public class DashboardMenu extends Menu {
 		switch (userSelection) {
 		case "1":
 			System.out.println("View/edit profile selected");
-			router.transfer("/user-profile-edit");
+			router.transfer("/profile");
 			break;
 		case "2":
 			if (userService.getSessionUser().getUserPermission() == 0) {

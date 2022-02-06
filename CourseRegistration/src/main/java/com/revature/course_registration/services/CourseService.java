@@ -75,5 +75,18 @@ public class CourseService {
 		return courseDAO.findById(id);
 	}
 
+	public List<Course> findOpenCourses() {
+		
+		return courseDAO.findAvailableCourses();
+	}
+	
+	public void updateCourse(Course updatedCourse) {
+		
+		if(courseDAO.update(updatedCourse)) {
+			throw new ResourcePersistenceException("Failure updating course.");
+		}
+
+	}
+
 
 }

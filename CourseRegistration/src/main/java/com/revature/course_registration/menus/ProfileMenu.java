@@ -18,7 +18,7 @@ public class ProfileMenu extends Menu {
 
 	@Override
 	public void render() throws Exception {
-		// TODO Auto-generated method stub
+		
 		String menu = "1) View my profile\n" + 
 					"2) Edit my profile\n" + 
 					"3) Back\n" + 

@@ -46,9 +46,9 @@ public class StudentCourseMenu extends Menu {
 
 		switch (userSelection) {
 		case "1":
-			System.out.println("My Courses:\n");
+			System.out.println("My Courses:");
 			List<Course> userCourses = courseService.findUserCourses(userService.getSessionUser());
-			//TODO: print column heaadings for readability
+			//TODO: print header row for readability
 			//System.out.println();
 			for (int i = 0; i < userCourses.size(); i++) {
 				System.out.println(userCourses.get(i).toString());				
@@ -56,13 +56,18 @@ public class StudentCourseMenu extends Menu {
 			//router.transfer("/student-course-menu");
 			break;
 		case "2":
-			System.out.println("Course Catalog:\n");
-			//TODO: Implement view courses with open seats
+			System.out.println("Available Courses:");
 			
+			List<Course> availableCourses = courseService.findOpenCourses();
+			
+			//TODO: add print header row for readability
+			for (int i = 0; i < availableCourses.size(); i++) {
+				System.out.println(availableCourses.get(i).toString());				
+			}
 			//router.transfer("/student-course-menu");
 			break;
 		case "3":
-			System.out.println("Enroll in a new course.\nEnter Course Number: ");
+			System.out.print("Enter course number for enrollment: ");
 			String courseSelection = consoleReader.readLine();
 			Registration newRegistration = new Registration(Integer.parseInt(userService.getSessionUser().getUserId()), Integer.parseInt(courseSelection));
 			if (registrationService.enrollCourse(newRegistration) != null) {

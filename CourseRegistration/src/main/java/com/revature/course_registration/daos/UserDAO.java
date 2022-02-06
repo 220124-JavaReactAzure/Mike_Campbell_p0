@@ -111,6 +111,8 @@ public class UserDAO implements CrudDAO<User> {
 			// random unique ID generation & assignment
 			// newStudent.setScientistId(UUID.randomUUID().toString());
 
+			// TODO use returning keyword to pop ID back to course object
+
 			String sql = "insert into users (user_fname, user_lname, user_email, user_username, user_password, user_permission) values (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -199,7 +201,33 @@ public class UserDAO implements CrudDAO<User> {
 
 	@Override
 	public boolean update(User updatedUser) {
-		// TODO Auto-generated method stub
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			String sql = "update users set user_fname = ?, user_lname = ?, user_email = ?, "
+					+ "user_username = ?, user_password = ? where user_id = ?";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			// overwrite
+			ps.setString(1, updatedUser.getFirstName());
+			ps.setString(2, updatedUser.getLastName());
+			ps.setString(3, updatedUser.getEmail());
+			ps.setString(4, updatedUser.getUsername());
+			ps.setString(5, updatedUser.getPassword());
+			// where
+			ps.setString(6, updatedUser.getUserId());
+
+			int rowsAffected = ps.executeUpdate();
+
+			if (rowsAffected == 1) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			logger.log(e.getSQLState());
+
+		}
 		return false;
 	}
 

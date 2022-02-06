@@ -55,7 +55,6 @@ public class UserService {
 		return userDao.findAll();
 	}
 
-	// TODO: Implement authentication
 	public void authenticateUser(String username, String password) {
 
 		if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
@@ -93,5 +92,12 @@ public class UserService {
 
 	public boolean isSessionActive() {
 		return sessionUser != null;
+	}
+
+	public void updateUser(User updatedUser) {
+		if(!userDao.update(updatedUser)) {
+			throw new ResourcePersistenceException("Failure updating user.");
+		}
+		sessionUser = updatedUser;
 	}
 }

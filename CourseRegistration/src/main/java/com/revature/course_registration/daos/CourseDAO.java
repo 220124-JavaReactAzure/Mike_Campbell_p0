@@ -110,33 +110,33 @@ public class CourseDAO implements CrudDAO<Course> {
 
 	@Override
 	public boolean update(Course updatedCourse) {
-		// TODO
-		/*
+		// TODO use returning keyword to pop ID back to course object
+
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-			String sql = "insert into course (course_name, course_description, instructor_id, "
-					+ "course_seats_max, course_seats_taken, course_is_full) values (?, ?, ?, ?, ?, ?)";
+			String sql = "update course set course_name = ?, course_description = ?, "
+					+ "course_seats_max = ?, course_seats_taken = ? where course_id = ?";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
-			// ps.setString(1, updatedCourse.getCourseID());
+			// overwrite
 			ps.setString(1, updatedCourse.getCourseName());
 			ps.setString(2, updatedCourse.getCourseDescription());
-			ps.setInt(3, updatedCourse.getCourseInstructor());
-			ps.setInt(4, updatedCourse.getCourseSeatsMAX());
-			ps.setInt(5, updatedCourse.getCourseSeatsTaken());
-			ps.setBoolean(6, updatedCourse.isFull());
+			ps.setInt(3, updatedCourse.getCourseSeatsMAX());
+			ps.setInt(4, updatedCourse.getCourseSeatsTaken());
+			// where
+			ps.setString(5, updatedCourse.getCourseID());
 
-			int rowsInserted = ps.executeUpdate();
+			int rowsAffected = ps.executeUpdate();
 
-			if (rowsInserted == 0) {
+			if (rowsAffected == 1) {
 				return true;
 			}
 
 		} catch (SQLException e) {
 			logger.log(e.getSQLState());
 		}
-*/
+
 		return false;
 	}
 
@@ -181,6 +181,38 @@ public class CourseDAO implements CrudDAO<Course> {
 
 	public Object findByCourseName(String courseName) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// could use refinement to find courses only applicable to specific users
+	public List<Course> findAvailableCourses() {
+		List<Course> availableCourses = new ArrayList<>();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			String sql = "select * from course where course_seats_taken < course_seats_max";
+			Statement s = conn.createStatement();
+			ResultSet resultSet = s.executeQuery(sql);
+
+			while (resultSet.next()) {
+				Course course = new Course();
+				course.setCourseID(resultSet.getString("course_id"));
+				course.setCourseName(resultSet.getString("course_name"));
+				course.setCourseDescription(resultSet.getString("course_description"));
+				course.setCourseInstructor(resultSet.getInt("instructor_id"));
+				course.setCourseSeatsMAX(resultSet.getInt("course_seats_max"));
+				course.setCourseSeatsTaken(resultSet.getInt("course_seats_taken"));
+				course.setFull(resultSet.getBoolean("course_is_full"));
+
+				availableCourses.add(course);
+			}
+
+			return availableCourses;
+
+		} catch (SQLException e) {
+			logger.log(e.getSQLState());
+		}
+
 		return null;
 	}
 
