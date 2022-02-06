@@ -8,11 +8,11 @@ import com.revature.course_registration.util.MenuRouter;
 
 public class RegisterMenu extends Menu {
 
-	UserService studentService;
+	UserService userService;
 
-	public RegisterMenu(BufferedReader consoleReader, MenuRouter router, UserService studentService) {
+	public RegisterMenu(BufferedReader consoleReader, MenuRouter router, UserService userService) {
 		super("Register", "/register", consoleReader, router);
-		this.studentService = studentService;
+		this.userService = userService;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class RegisterMenu extends Menu {
 		}
 
 		try {
-			studentService.registerNewUser(user);
+			userService.registerNewUser(user);
 		} catch (InvalidRequestException e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();

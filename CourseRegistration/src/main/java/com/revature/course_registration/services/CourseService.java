@@ -1,29 +1,29 @@
 package com.revature.course_registration.services;
 
 import com.revature.course_registration.daos.CourseDAO;
-import com.revature.course_registration.exceptions.AuthenticationException;
 import com.revature.course_registration.exceptions.InvalidRequestException;
 import com.revature.course_registration.exceptions.ResourcePersistenceException;
 import com.revature.course_registration.models.Course;
+import com.revature.course_registration.models.User;
 import com.revature.course_registration.util.collections.List;
 
 public class CourseService {
-	private final CourseDAO courseDao;
+	private final CourseDAO courseDAO;
 
-	public CourseService(CourseDAO courseDao) {
-		this.courseDao = courseDao;
+	public CourseService(CourseDAO courseDAO) {
+		this.courseDAO = courseDAO;
 	}
 
-	public Course registerNewCourse(Course newCourse) {
+	public Course createNewCourse(Course newCourse) {
 		if (!isCourseValid(newCourse)) {
-			throw new InvalidRequestException("Invalid user data provider");
+			throw new InvalidRequestException("Invalid course data provided.");
 		}
 		/*
 		// logic that verifies the new users information isn't duplicated in the system
-		boolean usernameAvailable = courseDao.findByUsername(newCourse.getCourseName()) == null;
+		boolean courseWithInstructorExists = courseDao.findByCourseName(newCourse.getCourseName()) == null;
 		boolean emailAvailable = courseDao.findByUsername(newCourse.getEmail()) == null;
 
-		if (!usernameAvailable || !emailAvailable) {
+		if (courseNameExists || !emailAvailable) {
 			if (!usernameAvailable && emailAvailable) {
 				throw new ResourcePersistenceException("The provided username was already taken in the database");
 			} else if (usernameAvailable) {
@@ -33,8 +33,8 @@ public class CourseService {
 						"The provided username and email were already taken in the database");
 			}
 		}
-		 */
-		Course persistedCourse = courseDao.create(newCourse);
+		*/
+		Course persistedCourse = courseDAO.create(newCourse);
 
 		if (persistedCourse == null) {
 			throw new ResourcePersistenceException("The user could not be persisted");
@@ -44,7 +44,7 @@ public class CourseService {
 	}
 
 	public List<Course> getAllCourses() {
-		return courseDao.findAll();
+		return courseDAO.findAll();
 	}
 
 	public boolean isCourseValid(Course newCourse) {
@@ -58,12 +58,22 @@ public class CourseService {
 		if (newCourse.getCourseSeatsMAX() == 0) {
 			return false;
 		}
-		if (newCourse.getCourseSeatsTaken() == newCourse.getCourseSeatsMAX()){
+		if (newCourse.getCourseSeatsTaken() > newCourse.getCourseSeatsMAX()){
 			return false;
 		}
 			
 		return true;
 
 	}
+
+	public List<Course> findUserCourses(User sessionUser) {
+		
+		return courseDAO.findUserCourses(sessionUser);
+	}
+
+	public Course findCourseByID(String id) {
+		return courseDAO.findById(id);
+	}
+
 
 }

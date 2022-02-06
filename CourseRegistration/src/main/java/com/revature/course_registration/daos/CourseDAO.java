@@ -179,4 +179,9 @@ public class CourseDAO implements CrudDAO<Course> {
 		return null;
 	}
 
+	public Object findByCourseName(String courseName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

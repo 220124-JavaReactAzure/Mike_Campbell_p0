@@ -1,13 +1,13 @@
 package com.revature.course_registration.models;
 
 public class Course {
-	String courseID;
-	String courseName;
-	String courseDescription;
-	int courseInstructor;
-	boolean isFull;
-	int courseSeatsMAX;
-	int courseSeatsTaken;
+	private String courseID;
+	private String courseName;
+	private String courseDescription;
+	private int courseInstructor;
+	private boolean isFull;
+	private int courseSeatsMAX;
+	private int courseSeatsTaken;
 	
 	public Course() {
 		super();
