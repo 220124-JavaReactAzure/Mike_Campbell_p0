@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import com.revature.course_registration.daos.CourseDAO;
+import com.revature.course_registration.daos.RegistrationDAO;
 import com.revature.course_registration.daos.UserDAO;
 import com.revature.course_registration.services.CourseService;
+import com.revature.course_registration.services.RegistrationService;
 import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.logging.Logger;
 import com.revature.course_registration.menus.RegisterMenu;
@@ -36,13 +38,15 @@ public class AppState {
 		CourseService courseService = new CourseService(courseDAO);
 		UserDAO userDAO = new UserDAO();
 		UserService userService = new UserService(userDAO);
+		RegistrationDAO registrationDAO = new RegistrationDAO();
+		RegistrationService registrationService = new RegistrationService(registrationDAO);
 		
 		//instantiate menus
 		router.addMenu(new WelcomeMenu(consoleReader, router));
 		router.addMenu(new RegisterMenu(consoleReader, router, userService));
 		router.addMenu(new LoginMenu(consoleReader, router, userService));
 		router.addMenu(new DashboardMenu(consoleReader, router, userService, courseService));
-		router.addMenu(new StudentCourseMenu(consoleReader, router, userService, courseService));
+		router.addMenu(new StudentCourseMenu(consoleReader, router, userService, courseService, registrationService));
 		router.addMenu(new FacultyCourseMenu(consoleReader, router, userService, courseService));
 		router.addMenu(new ProfileMenu(consoleReader, router, userService));
 		
