@@ -3,6 +3,7 @@ package com.revature.course_registration.menus;
 import java.io.BufferedReader;
 
 import com.revature.course_registration.models.Course;
+import com.revature.course_registration.models.Registration;
 import com.revature.course_registration.services.CourseService;
 import com.revature.course_registration.services.RegistrationService;
 import com.revature.course_registration.services.UserService;
@@ -63,8 +64,16 @@ public class StudentCourseMenu extends Menu {
 		case "3":
 			System.out.println("Enroll in a new course.\nEnter Course Number: ");
 			String courseSelection = consoleReader.readLine();
-			registrationService.enrollCourse(userService.getSessionUser(), courseService.findCourseByID(courseSelection));
-			// TODO:  Implement add course (insert row enrollment)
+			Registration newRegistration = new Registration(Integer.parseInt(userService.getSessionUser().getUserId()), Integer.parseInt(courseSelection));
+			if (registrationService.enrollCourse(newRegistration) != null) {
+				System.out.println("Enrollment in course successful.");
+				router.transfer("/student-course-menu");
+			}
+			else {
+				System.out.println("Enrollment in course failed. Either the course is full or you are already enrolled.");
+				router.transfer("/student-course-menu");
+			}
+			
 			break;
 		case "4":
 			System.out.println("Drop a course.\nEnter Course Number: ");
