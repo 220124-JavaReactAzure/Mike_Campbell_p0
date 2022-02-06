@@ -2,7 +2,7 @@ package com.revature.course_registration.models;
 
 import java.io.Serializable;
 
-import com.revature.course_registration.util.ArrayList;
+import com.revature.course_registration.util.collections.ArrayList;
 
 @SuppressWarnings("serial")
 public class User implements Serializable {
@@ -110,7 +110,6 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		String output = "";
 		output = output.concat(this.getFirstName());
 		output = output.concat(" ");

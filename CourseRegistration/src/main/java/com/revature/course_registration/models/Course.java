@@ -4,7 +4,7 @@ public class Course {
 	String courseID;
 	String courseName;
 	String courseDescription;
-	String courseInstructor;
+	int courseInstructor;
 	boolean isFull;
 	int courseSeatsMAX;
 	int courseSeatsTaken;
@@ -13,7 +13,7 @@ public class Course {
 		super();
 	}
 
-	public Course(String courseName, String courseDescription, String courseInstructor, int courseSeatsMAX) {
+	public Course(String courseName, String courseDescription, int courseInstructor, int courseSeatsMAX) {
 		super();
 		this.courseName = courseName;
 		this.courseDescription = courseDescription;
@@ -21,7 +21,7 @@ public class Course {
 		this.courseSeatsMAX = courseSeatsMAX;
 	}
 
-	public Course(String courseID, String courseName, String courseDescription, String courseInstructor, boolean isFull,
+	public Course(String courseID, String courseName, String courseDescription, int courseInstructor, boolean isFull,
 			int courseSeatsMAX, int courseSeatsTaken) {
 		super();
 		this.courseID = courseID;
@@ -57,11 +57,11 @@ public class Course {
 		this.courseDescription = courseDescription;
 	}
 
-	public String getCourseInstructor() {
+	public int getCourseInstructor() {
 		return courseInstructor;
 	}
 
-	public void setCourseInstructor(String courseInstructor) {
+	public void setCourseInstructor(int courseInstructor) {
 		this.courseInstructor = courseInstructor;
 	}
 
@@ -91,11 +91,17 @@ public class Course {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		String output = "";
+		output = output.concat(this.getCourseID());
+		output = output.concat(" ");
+		output = output.concat(this.getCourseName());
+		output = output.concat(", ");
+		output = output.concat(this.getCourseDescription());
+		output = output.concat(", ");
+		output = output.concat(String.valueOf(this.getCourseSeatsTaken()));
+		output = output.concat(", ");
+		output = output.concat(String.valueOf(this.getCourseSeatsMAX()));
+		
+		return output;
 	}
-
-	
-	
-
 }

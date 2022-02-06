@@ -2,6 +2,7 @@ package com.revature.course_registration.util;
 
 
 import com.revature.course_registration.menus.Menu;
+import com.revature.course_registration.util.collections.ArrayList;
 
 public class MenuRouter {
 	private final ArrayList<Menu> menus;

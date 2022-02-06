@@ -4,7 +4,7 @@ import com.revature.course_registration.daos.UserDAO;
 import com.revature.course_registration.exceptions.InvalidRequestException;
 import com.revature.course_registration.exceptions.AuthenticationException;
 import com.revature.course_registration.models.User;
-import com.revature.course_registration.util.List;
+import com.revature.course_registration.util.collections.List;
 import com.revature.course_registration.exceptions.ResourcePersistenceException;
 
 public class UserService {

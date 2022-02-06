@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.UUID;
 
 import com.revature.course_registration.models.User;
-import com.revature.course_registration.util.List;
 import com.revature.course_registration.util.logging.Logger;
-import com.revature.course_registration.util.ArrayList;
 import com.revature.course_registration.util.ConnectionFactory;
+import com.revature.course_registration.util.collections.ArrayList;
+import com.revature.course_registration.util.collections.List;
 
 public class UserDAO implements CrudDAO<User> {
 

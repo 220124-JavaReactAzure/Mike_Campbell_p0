@@ -1,6 +1,6 @@
 package com.revature.course_registration.daos;
 
-import com.revature.course_registration.util.List;
+import com.revature.course_registration.util.collections.List;
 
 public interface CrudDAO<T> {
 	// CRUD: Create, Read, Update, Delete

@@ -1,4 +1,4 @@
-package com.revature.course_registration.util;
+package com.revature.course_registration.util.collections;
 
 public interface List<T> extends Collection<T> {
 
