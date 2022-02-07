@@ -146,7 +146,6 @@ public class CourseDAO implements CrudDAO<Course> {
 		return false;
 	}
 
-	// TODO: test this implementation
 	public List<Course> findUserCourses(User user) {
 		List<Course> results = new ArrayList<>();
 

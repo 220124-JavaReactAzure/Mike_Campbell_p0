@@ -46,6 +46,7 @@ public class CourseService {
 	}
 
 	public boolean isCourseValid(Course newCourse) {
+		// could simplify code by using pattern matching tools
 		if (newCourse == null) {
 			return false;
 		}
@@ -59,7 +60,7 @@ public class CourseService {
 		if (newCourse.getCourseSeatsTaken() > newCourse.getCourseSeatsMAX()) {
 			return false;
 		}
-		//prohibit special characters that may allow sql injection
+		// prohibit special characters that may allow sql injection
 		if (newCourse.getCourseName().contains(";") || newCourse.getCourseDescription().contains(";")) {
 			return false;
 		}
@@ -87,7 +88,14 @@ public class CourseService {
 
 	public void updateCourse(Course updatedCourse) {
 
-		if (courseDAO.update(updatedCourse)) {
+		// check that update doesnt push seats take above seats max
+		if (updatedCourse.getCourseSeatsTaken() > updatedCourse.getCourseSeatsMAX()) {
+			throw new ResourcePersistenceException("Failure updating course: 'Seats Taken' may not be larger than 'Seats Max'.");
+		}
+		if (updatedCourse.getCourseSeatsTaken() == updatedCourse.getCourseSeatsMAX()) {
+			updatedCourse.setFull(true);
+		}
+		if (!courseDAO.update(updatedCourse)) {
 			throw new ResourcePersistenceException("Failure updating course.");
 		}
 

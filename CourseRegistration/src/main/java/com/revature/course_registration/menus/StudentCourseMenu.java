@@ -31,7 +31,6 @@ public class StudentCourseMenu extends Menu {
 	@Override
 	public void render() throws Exception {
 
-		// TODO: Work on implementing sessions & dashboard functionality
 
 		String menu = "1) View My Courses\n" + "2) View Available Courses\n" + "3) Add course\n" + "4) Drop Course\n"
 				+ "5) <<Back\n" + "> ";

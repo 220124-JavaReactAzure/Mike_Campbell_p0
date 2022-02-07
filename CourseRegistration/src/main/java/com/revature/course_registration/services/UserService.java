@@ -72,6 +72,8 @@ public class UserService {
 	}
 
 	public boolean isUserValid(User newUser) {
+		//could simplify code by using pattern matching tools
+		
 		if (newUser == null)
 			return false;
 		if (newUser.getFirstName() == null || newUser.getFirstName().trim().equals(""))
