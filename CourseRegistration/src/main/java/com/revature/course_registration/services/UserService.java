@@ -82,7 +82,21 @@ public class UserService {
 			return false;
 		if (newUser.getUsername() == null || newUser.getUsername().trim().equals(""))
 			return false;
-		return newUser.getPassword() != null && !newUser.getPassword().trim().equals("");
+		if (newUser.getPassword() == null && newUser.getPassword().trim().equals(""))
+			return false;
+		//prohibit special characters that may allow sql injection
+		if (newUser.getFirstName().contains(";") || newUser.getLastName().contains(";")
+				|| newUser.getEmail().contains(";") || newUser.getUsername().contains(";")
+				|| newUser.getPassword().contains(";")) {
+			return false;
+		}
+		if (newUser.getFirstName().contains("\"") || newUser.getLastName().contains("\"")
+				|| newUser.getEmail().contains("\"") || newUser.getUsername().contains("\"")
+				|| newUser.getPassword().contains("\"")) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -95,7 +109,7 @@ public class UserService {
 	}
 
 	public void updateUser(User updatedUser) {
-		if(!userDao.update(updatedUser)) {
+		if (!userDao.update(updatedUser)) {
 			throw new ResourcePersistenceException("Failure updating user.");
 		}
 		sessionUser = updatedUser;

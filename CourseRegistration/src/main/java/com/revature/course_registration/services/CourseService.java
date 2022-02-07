@@ -19,21 +19,19 @@ public class CourseService {
 			throw new InvalidRequestException("Invalid course data provided.");
 		}
 		/*
-		// logic that verifies the new users information isn't duplicated in the system
-		boolean courseWithInstructorExists = courseDao.findByCourseName(newCourse.getCourseName()) == null;
-		boolean emailAvailable = courseDao.findByUsername(newCourse.getEmail()) == null;
-
-		if (courseNameExists || !emailAvailable) {
-			if (!usernameAvailable && emailAvailable) {
-				throw new ResourcePersistenceException("The provided username was already taken in the database");
-			} else if (usernameAvailable) {
-				throw new ResourcePersistenceException("The provided email was already taken in the database");
-			} else {
-				throw new ResourcePersistenceException(
-						"The provided username and email were already taken in the database");
-			}
-		}
-		*/
+		 * // logic that verifies the new course information isn't duplicated in the
+		 * system boolean courseWithInstructorExists =
+		 * courseDao.findByCourseName(newCourse.getCourseName()) == null; boolean
+		 * emailAvailable = courseDao.findByUsername(newCourse.getEmail()) == null;
+		 * 
+		 * if (courseNameExists || !emailAvailable) { if (!usernameAvailable &&
+		 * emailAvailable) { throw new
+		 * ResourcePersistenceException("The provided username was already taken in the database"
+		 * ); } else if (usernameAvailable) { throw new
+		 * ResourcePersistenceException("The provided email was already taken in the database"
+		 * ); } else { throw new ResourcePersistenceException(
+		 * "The provided username and email were already taken in the database"); } }
+		 */
 		Course persistedCourse = courseDAO.create(newCourse);
 
 		if (persistedCourse == null) {
@@ -50,24 +48,31 @@ public class CourseService {
 	public boolean isCourseValid(Course newCourse) {
 		if (newCourse == null) {
 			return false;
-			}
+		}
 		if (newCourse.getCourseName() == null || newCourse.getCourseName().trim().equals("")) {
 			return false;
 		}
-			
+
 		if (newCourse.getCourseSeatsMAX() == 0) {
 			return false;
 		}
-		if (newCourse.getCourseSeatsTaken() > newCourse.getCourseSeatsMAX()){
+		if (newCourse.getCourseSeatsTaken() > newCourse.getCourseSeatsMAX()) {
 			return false;
 		}
-			
+		//prohibit special characters that may allow sql injection
+		if (newCourse.getCourseName().contains(";") || newCourse.getCourseDescription().contains(";")) {
+			return false;
+		}
+		if (newCourse.getCourseName().contains("\"") || newCourse.getCourseDescription().contains("\"")) {
+			return false;
+		}
+
 		return true;
 
 	}
 
 	public List<Course> findUserCourses(User sessionUser) {
-		
+
 		return courseDAO.findUserCourses(sessionUser);
 	}
 
@@ -76,17 +81,16 @@ public class CourseService {
 	}
 
 	public List<Course> findOpenCourses() {
-		
+
 		return courseDAO.findAvailableCourses();
 	}
-	
+
 	public void updateCourse(Course updatedCourse) {
-		
-		if(courseDAO.update(updatedCourse)) {
+
+		if (courseDAO.update(updatedCourse)) {
 			throw new ResourcePersistenceException("Failure updating course.");
 		}
 
 	}
-
 
 }
