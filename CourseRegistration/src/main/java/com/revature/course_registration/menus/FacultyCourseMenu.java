@@ -30,7 +30,7 @@ public class FacultyCourseMenu extends Menu {
 		// courses (instructor vs student)
 		
 		String menu = "1) View My Courses\n" + 
-					"2) Add course\n" + 
+					"2) Create course\n" + 
 					"3) Remove Course\n" + 
 					"4) Modify Course\n" +
 					"5) <<Back\n" +
