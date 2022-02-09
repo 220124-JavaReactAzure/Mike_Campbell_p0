@@ -69,7 +69,29 @@ public class RegistrationDAO implements CrudDAO<Registration> {
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			//first remove any registrations for this course
+			String sql = "delete from enrollment where course_id = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, id);
+			
+			int rowsAffected = ps.executeUpdate();		
+
+			if (rowsAffected == 1) {
+				return true;
+			}
+			else if(rowsAffected > 1) {
+				logger.log("Problem removing registration. Please contact and administrator.");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			logger.log(e.getSQLState());
+		}
+
 		return false;
 	}
 

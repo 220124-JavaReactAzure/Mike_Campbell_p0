@@ -111,7 +111,7 @@ public class CourseDAO implements CrudDAO<Course> {
 
 	@Override
 	public boolean update(Course updatedCourse) {
-		// TODO use returning keyword to pop ID back to course object
+		
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -143,8 +143,39 @@ public class CourseDAO implements CrudDAO<Course> {
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+			//first remove any registrations for this course
+			String sql = "delete from enrollment where course_id = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, id);
+			
+			//TODO use this return value to check number of registrations removed
+			int rowsAffected = ps.executeUpdate();		
+			
+			//now delete course
+			sql = "delete from course where course_id = ?";
+
+			ps = conn.prepareStatement(sql);
+
+			
+			ps.setString(1, id);
+			
+
+			rowsAffected = ps.executeUpdate();
+
+			if (rowsAffected == 1) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			logger.log(e.getSQLState());
+		}
+
 		return false;
+
 	}
 
 	public List<Course> findUserCourses(User user) {

@@ -56,3 +56,7 @@ values
 insert into enrollment (student_id, course_id) 
 values (1, 1),(2,1),(3,4),(4,5);
 
+insert into users(user_fname, user_lname, user_email, user_username, user_password, user_permission) 
+values 
+('spike', 'camp', 'spike@email.com', 'spikec', 'spikepass', 0) RETURNING user_id;
+
