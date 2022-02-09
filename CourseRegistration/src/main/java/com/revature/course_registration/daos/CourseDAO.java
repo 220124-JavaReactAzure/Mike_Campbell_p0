@@ -145,6 +145,7 @@ public class CourseDAO implements CrudDAO<Course> {
 	public boolean delete(String id) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
+			//cascade would be fancier, but to get to MVP...
 			// first remove any registrations for this course
 			String sql = "delete from enrollment where course_id = ?";
 

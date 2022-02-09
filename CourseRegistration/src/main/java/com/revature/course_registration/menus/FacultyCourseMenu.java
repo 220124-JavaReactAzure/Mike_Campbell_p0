@@ -51,22 +51,54 @@ public class FacultyCourseMenu extends Menu {
 			for (int i = 0; i < userCourses.size(); i++) {
 				System.out.println(userCourses.get(i).toString());
 			}
-			router.transfer("/student-course-menu");
+			router.transfer("/faculty-course-menu");
 			break;
 		case "2":
 			System.out.println("Enter Course Information");
-			//TODO: Implement add course
+			Course newCourse = new Course();
+			
+			System.out.print("Course Name: ");
+			String courseData = consoleReader.readLine();
+			newCourse.setCourseName(courseData);
+			
+			System.out.print("Course Description: ");
+			courseData = consoleReader.readLine();
+			newCourse.setCourseDescription(courseData);
+			
+			newCourse.setCourseInstructor(Integer.parseInt(userService.getSessionUser().getUserId()));
+			
+			System.out.print("Course Maximum Seats: ");
+			courseData = consoleReader.readLine();
+			newCourse.setCourseSeatsMAX(Integer.parseInt(courseData));
+			
+			System.out.print("Course Seats Available: ");
+			courseData = consoleReader.readLine();
+			newCourse.setCourseSeatsTaken(Integer.parseInt(courseData));
+			
+			if(newCourse.getCourseSeatsTaken() == newCourse.getCourseSeatsMAX()) {
+				newCourse.setFull(true);
+			}
+			else {
+				newCourse.setFull(false);
+			}
+			courseService.createNewCourse(newCourse);
+			logger.log("New course added to catalog.");
+			router.transfer("/faculty-course-menu");
+			
 			break;
 		case "3":
 			System.out.println("Enter Course Number \n(COURSE WILL BE REMOVED)");
-			// TODO: Implement remove course
+			System.out.print("Course Number: ");
+			String deletedCourse = consoleReader.readLine();
+			courseService.deleteCourse(deletedCourse);
+			logger.log("Course removed from catalog. All students unenrolled from deleted course.");
+			router.transfer("/faculty-course-menu");
 			break;
 		case "4":
-			System.out.println("Enter Course Number");
-			// TODO: Implement modify course
+			router.transfer("/modify-course-menu");
 			break;
 		case "5":
-			//TODO: Implement return to last menu
+			router.transfer("/dashboard");
 			break;
 		default:
 			System.out.println("The user made an invalid selection");
