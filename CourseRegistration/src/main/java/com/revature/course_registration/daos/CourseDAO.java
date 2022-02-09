@@ -161,7 +161,7 @@ public class CourseDAO implements CrudDAO<Course> {
 
 			ps = conn.prepareStatement(sql);
 
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 
 			rowsAffected = ps.executeUpdate();
 
