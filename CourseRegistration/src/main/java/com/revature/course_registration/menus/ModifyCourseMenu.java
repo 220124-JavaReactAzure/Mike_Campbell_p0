@@ -2,11 +2,11 @@ package com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
 
+import com.revature.course_registration.exceptions.InvalidRequestException;
 import com.revature.course_registration.models.Course;
 import com.revature.course_registration.services.CourseService;
 import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.MenuRouter;
-import com.revature.course_registration.util.collections.List;
 import com.revature.course_registration.util.logging.Logger;
 
 public class ModifyCourseMenu extends Menu {
@@ -27,6 +27,12 @@ public class ModifyCourseMenu extends Menu {
 
 		System.out.print("Enter course number: ");
 		String courseId = consoleReader.readLine();
+		
+		Course updatedCourse = courseService.findCourseByID(courseId);
+		
+		if(updatedCourse.getCourseInstructor() != Integer.parseInt(userService.getSessionUser().getUserId())) {
+			throw new InvalidRequestException("You do not have permission to modify another instructor's course.");
+		}
 
 		String menu = "1) Change Course Name\n" + "2) Change Course Description\n" + "3) Change Course Maximum Seats\n"
 				+ "4) <<Back\n" + "> ";
@@ -35,13 +41,12 @@ public class ModifyCourseMenu extends Menu {
 
 		String userSelection = consoleReader.readLine();
 		String courseData;
-		Course updatedCourse = new Course();
+		
 
 		switch (userSelection) {
 		case "1":
 			System.out.print("New course name: ");
 			courseData = consoleReader.readLine();
-			updatedCourse = courseService.findCourseByID(courseId);
 			updatedCourse.setCourseName(courseData);
 			courseService.updateCourse(updatedCourse);
 			logger.log("Course name updated.");
@@ -50,7 +55,6 @@ public class ModifyCourseMenu extends Menu {
 		case "2":
 			System.out.print("New course description: ");
 			courseData = consoleReader.readLine();
-			updatedCourse = courseService.findCourseByID(courseId);
 			updatedCourse.setCourseDescription(courseData);
 			courseService.updateCourse(updatedCourse);
 			logger.log("Course description updated.");
@@ -59,7 +63,6 @@ public class ModifyCourseMenu extends Menu {
 		case "3":
 			System.out.print("New course maximum seats: ");
 			courseData = consoleReader.readLine();
-			updatedCourse = courseService.findCourseByID(courseId);
 			updatedCourse.setCourseSeatsMAX(Integer.parseInt(courseData));
 			courseService.updateCourse(updatedCourse);
 			logger.log("Course maximum seats updated.");
