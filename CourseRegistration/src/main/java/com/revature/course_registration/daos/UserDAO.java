@@ -113,7 +113,9 @@ public class UserDAO implements CrudDAO<User> {
 
 			// TODO use returning keyword to pop ID back to course object
 
-			String sql = "insert into users (user_fname, user_lname, user_email, user_username, user_password, user_permission) values (?, ?, ?, ?, ?, ?)";
+			String sql = "insert into users (user_fname, user_lname, user_email, "
+					+ "user_username, user_password, user_permission) values (?, ?, ?, ?, ?, ?)"
+					+ "RETURNING user_id";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -125,9 +127,10 @@ public class UserDAO implements CrudDAO<User> {
 			ps.setString(5, newUser.getPassword());
 			ps.setInt(6, newUser.getUserPermission());
 
-			int rowsInserted = ps.executeUpdate();
+			int returnedID = ps.executeUpdate();
 
-			if (rowsInserted != 0) {
+			if (returnedID != 0) {
+				newUser.setUserId(String.valueOf(returnedID));
 				return newUser;
 			}
 

@@ -34,9 +34,10 @@ public class CourseDAO implements CrudDAO<Course> {
 			ps.setInt(5, newCourse.getCourseSeatsTaken());
 			ps.setBoolean(6, newCourse.isFull());
 
-			int rowsInserted = ps.executeUpdate();
+			int returnedID = ps.executeUpdate();
 
-			if (rowsInserted != 0) {
+			if (returnedID != 0) {
+				newCourse.setCourseID(String.valueOf(returnedID));
 				return newCourse;
 			}
 
