@@ -179,7 +179,7 @@ public class UserDAO implements CrudDAO<User> {
 
 			String sql = "select * from users where user_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 			ResultSet resultSet = ps.executeQuery();
 
 			while (resultSet.next()) {
@@ -219,7 +219,7 @@ public class UserDAO implements CrudDAO<User> {
 			ps.setString(4, updatedUser.getUsername());
 			ps.setString(5, updatedUser.getPassword());
 			// where
-			ps.setString(6, updatedUser.getUserId());
+			ps.setInt(6, Integer.parseInt(updatedUser.getUserId()));
 
 			int rowsAffected = ps.executeUpdate();
 

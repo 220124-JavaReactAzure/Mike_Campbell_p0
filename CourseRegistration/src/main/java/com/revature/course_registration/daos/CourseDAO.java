@@ -87,7 +87,7 @@ public class CourseDAO implements CrudDAO<Course> {
 
 			String sql = "select * from course where course_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 			ResultSet resultSet = ps.executeQuery();
 
 			while (resultSet.next()) {
@@ -126,7 +126,7 @@ public class CourseDAO implements CrudDAO<Course> {
 			ps.setInt(3, updatedCourse.getCourseSeatsMAX());
 			ps.setInt(4, updatedCourse.getCourseSeatsTaken());
 			// where
-			ps.setString(5, updatedCourse.getCourseID());
+			ps.setInt(5, Integer.parseInt(updatedCourse.getCourseID()));
 
 			int rowsAffected = ps.executeUpdate();
 
@@ -151,7 +151,7 @@ public class CourseDAO implements CrudDAO<Course> {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 
 			// TODO use this return value to check number of registrations removed
 			int rowsAffected = ps.executeUpdate();
@@ -185,7 +185,7 @@ public class CourseDAO implements CrudDAO<Course> {
 			if (user.getUserPermission() == 0) {
 				String sql = "select * from course natural join enrollment where student_id = ?";
 				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setString(1, user.getUserId());
+				ps.setInt(1, Integer.parseInt(user.getUserId()));
 				ResultSet resultSet = ps.executeQuery();
 
 				while (resultSet.next()) {
@@ -204,7 +204,7 @@ public class CourseDAO implements CrudDAO<Course> {
 			else if (user.getUserPermission() == 1) {
 				String sql = "select * from course where instructor_id = ?";
 				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setString(1, user.getUserId());
+				ps.setInt(1, Integer.parseInt(user.getUserId()));
 				ResultSet resultSet = ps.executeQuery();
 
 				while (resultSet.next()) {
@@ -227,7 +227,7 @@ public class CourseDAO implements CrudDAO<Course> {
 			return results;
 
 		} catch (SQLException e) {
-			logger.log(e.getSQLState());
+			e.printStackTrace();
 		}
 
 		return null;
