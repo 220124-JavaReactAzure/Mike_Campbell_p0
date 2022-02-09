@@ -34,6 +34,7 @@ public class ProfileMenu extends Menu {
 			System.out.println(userService.getSessionUser().toString());
 			//TODO use printf to format output of profile
 			//System.out.printf(userSelection, null).println();
+			router.transfer("/profile");
 			break;
 		case "2":
 			System.out.println("Edit my profile");

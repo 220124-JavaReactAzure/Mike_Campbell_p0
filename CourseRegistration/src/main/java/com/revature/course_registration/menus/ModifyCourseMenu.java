@@ -28,6 +28,7 @@ public class ModifyCourseMenu extends Menu {
 		System.out.print("Enter course number: ");
 		String courseId = consoleReader.readLine();
 		
+		//needs input validation
 		Course updatedCourse = courseService.findCourseByID(courseId);
 		
 		if(updatedCourse.getCourseInstructor() != Integer.parseInt(userService.getSessionUser().getUserId())) {

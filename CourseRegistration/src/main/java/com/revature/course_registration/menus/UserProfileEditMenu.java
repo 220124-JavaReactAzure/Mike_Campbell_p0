@@ -42,35 +42,35 @@ public class UserProfileEditMenu extends Menu {
 					userInput = consoleReader.readLine();
 					updatedUser.setFirstName(userInput);
 					userService.updateUser(updatedUser);
-					
+					router.transfer("/user-profile-edit");
 					break;
 				case "2":
 					System.out.print("New last name: ");
 					userInput = consoleReader.readLine();
 					updatedUser.setLastName(userInput);
 					userService.updateUser(updatedUser);
-					
+					router.transfer("/user-profile-edit");
 					break;
 				case "3":
 					System.out.print("New email: ");
 					userInput = consoleReader.readLine();
 					updatedUser.setEmail(userInput);
 					userService.updateUser(updatedUser);
-					
+					router.transfer("/user-profile-edit");
 					break;
 				case "4":
 					System.out.print("New username: ");
 					userInput = consoleReader.readLine();
 					updatedUser.setUsername(userInput);
 					userService.updateUser(updatedUser);
-					
+					router.transfer("/user-profile-edit");
 					break;
 				case "5":
 					System.out.print("New password: ");
 					userInput = consoleReader.readLine();
 					updatedUser.setPassword(userInput);
 					userService.updateUser(updatedUser);
-					
+					router.transfer("/user-profile-edit");
 					break;
 				case "6":
 					router.transfer("/profile");

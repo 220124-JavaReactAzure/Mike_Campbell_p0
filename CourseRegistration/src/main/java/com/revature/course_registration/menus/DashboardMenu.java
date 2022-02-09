@@ -58,6 +58,7 @@ public class DashboardMenu extends Menu {
 			for (int i = 0; i < allCourses.size(); i++) {
 				System.out.println(allCourses.get(i).toString());
 			}
+			router.transfer("/dashboard");
 			break;
 		case "4":
 			userService.logout();
