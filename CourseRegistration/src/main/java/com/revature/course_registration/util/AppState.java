@@ -12,10 +12,12 @@ import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.logging.Logger;
 import com.revature.course_registration.menus.RegisterMenu;
 import com.revature.course_registration.menus.StudentCourseMenu;
+import com.revature.course_registration.menus.UserProfileEditMenu;
 import com.revature.course_registration.menus.WelcomeMenu;
 import com.revature.course_registration.menus.DashboardMenu;
 import com.revature.course_registration.menus.FacultyCourseMenu;
 import com.revature.course_registration.menus.LoginMenu;
+import com.revature.course_registration.menus.ModifyCourseMenu;
 import com.revature.course_registration.menus.ProfileMenu;
 
 public class AppState {
@@ -48,7 +50,9 @@ public class AppState {
 		router.addMenu(new DashboardMenu(consoleReader, router, userService, courseService));
 		router.addMenu(new StudentCourseMenu(consoleReader, router, userService, courseService, registrationService));
 		router.addMenu(new FacultyCourseMenu(consoleReader, router, userService, courseService));
+		router.addMenu(new ModifyCourseMenu(consoleReader, router, userService, courseService));
 		router.addMenu(new ProfileMenu(consoleReader, router, userService));
+		router.addMenu(new UserProfileEditMenu(consoleReader, router, userService));
 		
 		logger.log("Application initialized successfully.");
 	}
