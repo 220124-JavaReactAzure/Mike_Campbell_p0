@@ -44,13 +44,22 @@ public class FacultyCourseMenu extends Menu {
 
 		switch (userSelection) {
 		case "1":
+			try {
 			System.out.println("My Courses: ");
 			List<Course> userCourses = courseService.findUserCourses(userService.getSessionUser());
 			// TODO: print header row for readability
 			// System.out.println();
+			if (userCourses == null) {
+				logger.log("You have no recorded courses.");
+				router.transfer("/faculty-course-menu");
+			}
 			for (int i = 0; i < userCourses.size(); i++) {
 				System.out.println(userCourses.get(i).toString());
 			}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			router.transfer("/faculty-course-menu");
 			break;
 		case "2":

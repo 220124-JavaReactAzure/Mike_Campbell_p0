@@ -46,17 +46,19 @@ values
 --insert test courses
 insert into course(course_name, course_description, instructor_id, course_seats_max, course_seats_taken, course_is_full) 
 values 
-('fish101', 'fish basics', 1, 15, 5, false),
-('fish102', 'fish basics part 2', 1, 15, 1, false),
-('fish201', 'surprising facts about fish', 1, 15, 0, false),
-('fish300', 'fish remember faces, please love fish', 1, 12, 2, false),
-('why we should all care about fish', 'why is no one listening to me about fish', 1, 20, 3, false);
+('fish101', 'fish basics', 5, 15, 5, false),
+('fish102', 'fish basics part 2', 6, 15, 1, false),
+('fish201', 'surprising facts about fish', 5, 15, 0, false),
+('fish300', 'fish remember faces, please love fish', 5, 12, 2, false),
+('why we should all care about fish', 'why is no one listening to me about fish', 5, 20, 3, false);
 
 --insert test enrollments
 insert into enrollment (student_id, course_id) 
 values (1, 1),(2,1),(3,4),(4,5);
 
+
 insert into users(user_fname, user_lname, user_email, user_username, user_password, user_permission) 
 values 
-('spike', 'camp', 'spike@email.com', 'spikec', 'spikepass', 0) RETURNING user_id;
+('spike', 'camp', 'spike@email.com', 'spikec', 'spikepass', 0);
+
 
