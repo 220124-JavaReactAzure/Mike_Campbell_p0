@@ -31,5 +31,13 @@ public class RegistrationService {
 		registrationDAO.delete(courseSelection);
 		
 	}
+
+	public boolean isRegistrationValid(Registration validRegistration) {
+		if(validRegistration.getCourse_id() == (int)validRegistration.getCourse_id() && 
+				validRegistration.getStudent_id() == (int)validRegistration.getStudent_id()) {
+			return true;
+		}
+		return false;
+	}
 	
 }
