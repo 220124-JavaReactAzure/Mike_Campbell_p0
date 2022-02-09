@@ -15,8 +15,8 @@ public class FacultyCourseMenu extends Menu {
 	private final CourseService courseService;
 	private final Logger logger;
 
-	public FacultyCourseMenu(BufferedReader consoleReader, MenuRouter router,
-			UserService userService, CourseService courseService) {
+	public FacultyCourseMenu(BufferedReader consoleReader, MenuRouter router, UserService userService,
+			CourseService courseService) {
 		super("Faculty Course Menu", "/faculty-course-menu", consoleReader, router);
 		this.userService = userService;
 		this.courseService = courseService;
@@ -27,16 +27,12 @@ public class FacultyCourseMenu extends Menu {
 	public void render() throws Exception {
 
 		// TODO: Work on implementing sessions & dashboard functionality
-		
+
 		// check for user permission to see if they can modify courses or enroll in
 		// courses (instructor vs student)
-		
-		String menu = "1) View My Courses\n" + 
-					"2) Create course\n" + 
-					"3) Remove Course\n" + 
-					"4) Modify Course\n" +
-					"5) <<Back\n" +
-					"> ";
+
+		String menu = "1) View My Courses\n" + "2) Create course\n" + "3) Remove Course\n" + "4) Modify Course\n"
+				+ "5) <<Back\n" + "> ";
 
 		System.out.print(menu);
 
@@ -45,55 +41,59 @@ public class FacultyCourseMenu extends Menu {
 		switch (userSelection) {
 		case "1":
 			try {
-			System.out.println("My Courses: ");
-			List<Course> userCourses = courseService.findUserCourses(userService.getSessionUser());
-			// TODO: print header row for readability
-			// System.out.println();
-			if (userCourses == null) {
-				logger.log("You have no recorded courses.");
-				router.transfer("/faculty-course-menu");
-			}
-			for (int i = 0; i < userCourses.size(); i++) {
-				System.out.println(userCourses.get(i).toString());
-			}
-			}catch (Exception e) {
+				System.out.println("My Courses: ");
+				List<Course> userCourses = courseService.findUserCourses(userService.getSessionUser());
+				// TODO: print header row for readability
+				// System.out.println();
+				if (userCourses == null) {
+					logger.log("You have no recorded courses.");
+					router.transfer("/faculty-course-menu");
+				}
+				for (int i = 0; i < userCourses.size(); i++) {
+					System.out.println(userCourses.get(i).toString());
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			router.transfer("/faculty-course-menu");
 			break;
 		case "2":
 			System.out.println("Enter Course Information");
 			Course newCourse = new Course();
-			
+
 			System.out.print("Course Name: ");
 			String courseData = consoleReader.readLine();
 			newCourse.setCourseName(courseData);
-			
+
 			System.out.print("Course Description: ");
 			courseData = consoleReader.readLine();
 			newCourse.setCourseDescription(courseData);
-			
+
 			newCourse.setCourseInstructor(Integer.parseInt(userService.getSessionUser().getUserId()));
-			
+
 			System.out.print("Course Maximum Seats: ");
 			courseData = consoleReader.readLine();
 			newCourse.setCourseSeatsMAX(Integer.parseInt(courseData));
-			
+
 			System.out.print("Course Seats Available: ");
 			courseData = consoleReader.readLine();
-			newCourse.setCourseSeatsTaken(Integer.parseInt(courseData));
-			
-			if(newCourse.getCourseSeatsTaken() == newCourse.getCourseSeatsMAX()) {
-				newCourse.setFull(true);
+			if (Integer.parseInt(courseData) > newCourse.getCourseSeatsMAX()) {
+				logger.log("Invalid Entry: Seats available may not exceed maximum seats.");
+				router.transfer("/faculty-course-menu");
+			} else {
+				newCourse.setCourseSeatsTaken(newCourse.getCourseSeatsMAX() - Integer.parseInt(courseData));
+
+				if (newCourse.getCourseSeatsTaken() == newCourse.getCourseSeatsMAX()) {
+					newCourse.setFull(true);
+				} else {
+					newCourse.setFull(false);
+				}
+				courseService.createNewCourse(newCourse);
+				logger.log("New course added to catalog.");
+				router.transfer("/faculty-course-menu");
 			}
-			else {
-				newCourse.setFull(false);
-			}
-			courseService.createNewCourse(newCourse);
-			logger.log("New course added to catalog.");
-			router.transfer("/faculty-course-menu");
-			
+
 			break;
 		case "3":
 			System.out.println("Enter Course Number \n(COURSE WILL BE REMOVED)");
