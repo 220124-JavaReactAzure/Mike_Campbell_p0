@@ -2,9 +2,11 @@ package com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
 
+import com.revature.course_registration.models.Course;
 import com.revature.course_registration.services.CourseService;
 import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.MenuRouter;
+import com.revature.course_registration.util.collections.List;
 import com.revature.course_registration.util.logging.Logger;
 
 public class DashboardMenu extends Menu {
@@ -50,7 +52,12 @@ public class DashboardMenu extends Menu {
 
 			break;
 		case "3":
-			// TODO: Implement view ALL courses
+			List<Course> allCourses = courseService.getAllCourses();
+
+			// TODO: add print header row for readability
+			for (int i = 0; i < allCourses.size(); i++) {
+				System.out.println(allCourses.get(i).toString());
+			}
 			break;
 		case "4":
 			userService.logout();
