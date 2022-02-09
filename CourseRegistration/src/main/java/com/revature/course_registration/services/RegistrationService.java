@@ -26,5 +26,10 @@ public class RegistrationService {
 		}
 		return persistedRegistration;
 	}
+
+	public void dropCourse(String courseSelection) {
+		registrationDAO.delete(courseSelection);
+		
+	}
 	
 }

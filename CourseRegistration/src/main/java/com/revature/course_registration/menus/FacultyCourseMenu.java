@@ -2,9 +2,11 @@ package com.revature.course_registration.menus;
 
 import java.io.BufferedReader;
 
+import com.revature.course_registration.models.Course;
 import com.revature.course_registration.services.CourseService;
 import com.revature.course_registration.services.UserService;
 import com.revature.course_registration.util.MenuRouter;
+import com.revature.course_registration.util.collections.List;
 import com.revature.course_registration.util.logging.Logger;
 
 public class FacultyCourseMenu extends Menu {
@@ -43,7 +45,13 @@ public class FacultyCourseMenu extends Menu {
 		switch (userSelection) {
 		case "1":
 			System.out.println("My Courses: ");
-			//TODO: Implement view courses
+			List<Course> userCourses = courseService.findUserCourses(userService.getSessionUser());
+			// TODO: print header row for readability
+			// System.out.println();
+			for (int i = 0; i < userCourses.size(); i++) {
+				System.out.println(userCourses.get(i).toString());
+			}
+			router.transfer("/student-course-menu");
 			break;
 		case "2":
 			System.out.println("Enter Course Information");

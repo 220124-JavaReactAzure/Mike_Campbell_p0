@@ -84,8 +84,12 @@ public class StudentCourseMenu extends Menu {
 		case "4":
 			System.out.print("Enter course number to be DROPPED: ");
 			courseSelection = consoleReader.readLine();
-			// TODO: Implement remove course (delete row enrollment)
-			
+			registrationService.dropCourse(courseSelection);
+			//decrement seats taken
+			Course updatedCourse = courseService.findCourseByID(courseSelection);
+			updatedCourse.setCourseSeatsTaken( updatedCourse.getCourseSeatsTaken() - 1);
+			courseService.updateCourse(updatedCourse);
+			logger.log("Course successfully dropped.");
 			router.transfer("/student-course-menu");
 			break;
 		case "5":

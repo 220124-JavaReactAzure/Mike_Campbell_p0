@@ -12,6 +12,7 @@ import com.revature.course_registration.util.ConnectionFactory;
 import com.revature.course_registration.util.collections.ArrayList;
 import com.revature.course_registration.util.collections.List;
 import com.revature.course_registration.util.logging.Logger;
+import com.revature.course_registration.exceptions.InvalidRequestException;
 
 public class CourseDAO implements CrudDAO<Course> {
 
@@ -111,7 +112,6 @@ public class CourseDAO implements CrudDAO<Course> {
 
 	@Override
 	public boolean update(Course updatedCourse) {
-		
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -145,24 +145,22 @@ public class CourseDAO implements CrudDAO<Course> {
 	public boolean delete(String id) {
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-			//first remove any registrations for this course
+			// first remove any registrations for this course
 			String sql = "delete from enrollment where course_id = ?";
-			
+
 			PreparedStatement ps = conn.prepareStatement(sql);
 
 			ps.setString(1, id);
-			
-			//TODO use this return value to check number of registrations removed
-			int rowsAffected = ps.executeUpdate();		
-			
-			//now delete course
+
+			// TODO use this return value to check number of registrations removed
+			int rowsAffected = ps.executeUpdate();
+
+			// now delete course
 			sql = "delete from course where course_id = ?";
 
 			ps = conn.prepareStatement(sql);
 
-			
 			ps.setString(1, id);
-			
 
 			rowsAffected = ps.executeUpdate();
 
@@ -182,23 +180,47 @@ public class CourseDAO implements CrudDAO<Course> {
 		List<Course> results = new ArrayList<>();
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+			//if student, return courses in which they are enrolled
+			if (user.getUserPermission() == 0) {
+				String sql = "select * from course natural join enrollment where student_id = ?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, user.getUserId());
+				ResultSet resultSet = ps.executeQuery();
 
-			String sql = "select * from course natural join enrollment where student_id = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, user.getUserId());
-			ResultSet resultSet = ps.executeQuery();
+				while (resultSet.next()) {
+					Course course = new Course();
+					course.setCourseID(resultSet.getString("course_id"));
+					course.setCourseName(resultSet.getString("course_name"));
+					course.setCourseDescription(resultSet.getString("course_description"));
+					course.setCourseInstructor(resultSet.getInt("instructor_id"));
+					course.setCourseSeatsMAX(resultSet.getInt("course_seats_max"));
+					course.setCourseSeatsTaken(resultSet.getInt("course_seats_taken"));
+					course.setFull(resultSet.getBoolean("course_is_full"));
 
-			while (resultSet.next()) {
-				Course course = new Course();
-				course.setCourseID(resultSet.getString("course_id"));
-				course.setCourseName(resultSet.getString("course_name"));
-				course.setCourseDescription(resultSet.getString("course_description"));
-				course.setCourseInstructor(resultSet.getInt("instructor_id"));
-				course.setCourseSeatsMAX(resultSet.getInt("course_seats_max"));
-				course.setCourseSeatsTaken(resultSet.getInt("course_seats_taken"));
-				course.setFull(resultSet.getBoolean("course_is_full"));
+					results.add(course);
+				}
+			} //if instructor, return courses they teach
+			else if (user.getUserPermission() == 1) {
+				String sql = "select * from course where instructor_id = ?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, user.getUserId());
+				ResultSet resultSet = ps.executeQuery();
 
-				results.add(course);
+				while (resultSet.next()) {
+					Course course = new Course();
+					course.setCourseID(resultSet.getString("course_id"));
+					course.setCourseName(resultSet.getString("course_name"));
+					course.setCourseDescription(resultSet.getString("course_description"));
+					course.setCourseInstructor(resultSet.getInt("instructor_id"));
+					course.setCourseSeatsMAX(resultSet.getInt("course_seats_max"));
+					course.setCourseSeatsTaken(resultSet.getInt("course_seats_taken"));
+					course.setFull(resultSet.getBoolean("course_is_full"));
+
+					results.add(course);
+				}
+			}//if neither, something went wrong (permission is only 0 or 1 for this application)
+			else {
+				throw new InvalidRequestException("Problem retrieving courses by user. User permission is invalid value.");
 			}
 
 			return results;
