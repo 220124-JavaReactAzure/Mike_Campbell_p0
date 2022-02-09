@@ -48,7 +48,7 @@ public class StudentCourseMenu extends Menu {
 			for (int i = 0; i < userCourses.size(); i++) {
 				System.out.println(userCourses.get(i).toString());
 			}
-			// router.transfer("/student-course-menu");
+			router.transfer("/student-course-menu");
 			break;
 		case "2":
 			System.out.println("Available Courses:");
@@ -59,7 +59,7 @@ public class StudentCourseMenu extends Menu {
 			for (int i = 0; i < availableCourses.size(); i++) {
 				System.out.println(availableCourses.get(i).toString());
 			}
-			// router.transfer("/student-course-menu");
+			router.transfer("/student-course-menu");
 			break;
 		case "3":
 			System.out.print("Enter course number for enrollment: ");
@@ -85,6 +85,8 @@ public class StudentCourseMenu extends Menu {
 			System.out.print("Enter course number to be DROPPED: ");
 			courseSelection = consoleReader.readLine();
 			// TODO: Implement remove course (delete row enrollment)
+			
+			router.transfer("/student-course-menu");
 			break;
 		case "5":
 			router.transfer("/dashboard");
